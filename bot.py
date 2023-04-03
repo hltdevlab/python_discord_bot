@@ -16,12 +16,23 @@ async def send_message(message, user_message, is_private):
 async def get_history(channel, limit=10):
     messages = [message async for message in channel.history(limit=limit)]
     # messages is now a list of Message...
+    formatted_messages = format_history_messages(messages)
     print('----- history -----')
-    for msg in messages:
+    for msg in formatted_messages:
         print(msg)
-        print('msg.content: ' + msg.content)
+        #print('msg.content: ' + msg.content)
     print('----------')
-    return messages
+    return formatted_messages
+
+
+def format_history_message(message):
+    username = str(message.author.name)
+    user_message = str(message.content)
+    return f"{username}: '{user_message}'"
+
+
+def format_history_messages(messages):
+    return list(map(lambda x: format_history_message(x), messages))
 
 
 def run_discord_bot():
