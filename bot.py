@@ -30,7 +30,7 @@ async def get_history(channel, limit=10):
 def format_history_message(message):
     username = str(message.author.name)
     user_message = str(message.content)
-    return f"{username}: '{user_message}'"
+    return f"{username}: {user_message}"
 
 
 def format_history_messages(messages):
