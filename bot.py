@@ -32,7 +32,7 @@ def format_history_message(message):
 
 
 def format_history_messages(messages):
-    return list(map(lambda x: format_history_message(x), messages)).reverse()
+    return list(map(lambda x: format_history_message(x), messages))
 
 
 def run_discord_bot():
