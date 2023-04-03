@@ -28,7 +28,7 @@ Response example:
 def generate_prompt(formatted_history_messages):
     bot_name = 'JustBot'
     prompt = f"I want you to act as {bot_name}, a friend who is very friendly, can reply in either English or Chinese. You are supposed to reply as {bot_name}."
-    prompt += f"The followings are the conversation history: {'\n'.join(formatted_history_messages)}"
+    prompt += f"The followings are the conversation history: {'\\n'.join(formatted_history_messages)}"
     print('prompt: ' + prompt)
     return prompt
 
