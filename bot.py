@@ -13,6 +13,16 @@ async def send_message(message, user_message, is_private):
         print(e)
 
 
+def get_history(channel, limit=10):
+    messages = [message async for message in channel.history(limit=limit)]
+    # messages is now a list of Message...
+    print('----- history -----')
+    for msg in messages:
+        print(msg)
+    print('----------')
+    return messages
+
+
 def run_discord_bot():
     TOKEN = config['BOT_TOKEN']
     intents = discord.Intents.default()
@@ -32,6 +42,8 @@ def run_discord_bot():
         username = str(message.author)
         user_message = str(message.content)
         channel = str(message.channel)
+
+        history_messages = get_history(channel)
 
         print(f"{username} said: '{user_message}' ({channel})")
 
