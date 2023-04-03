@@ -25,13 +25,22 @@ Response example:
 }
 '''
 
-def ask_chatgpt(message):
+def generate_prompt(formatted_history_messages):
+    bot_name = 'JustBot'
+    prompt = f"I want you to act as {bot_name}, a friend who is very friendly, can reply in either English or Chinese. You are supposed to reply as {bot_name}."
+    prompt += f"The followings are the conversation history: {'\n'.join(formatted_history_messages)}"
+    print('prompt: ' + prompt)
+    return prompt
+
+
+def ask_chatgpt(formatted_history_messages):
     print('sending to openai...')
+    prompt = generate_prompt()
     response = openai.Completion.create(
         model = "text-davinci-003",
         #model = "gpt-3.5-turbo",
         #prompt = "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?\nAI: I am an AI created by OpenAI. How can I help you today?\nHuman: I'd like to cancel my subscription.\nAI:",
-        prompt = message,
+        prompt = prompt,
         temperature = 0.9,
         max_tokens = 150,
         top_p = 1,
