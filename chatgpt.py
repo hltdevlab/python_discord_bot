@@ -32,7 +32,7 @@ def generate_prompt(formatted_history_messages):
     # prompt += f"You are supposed to reply as {bot_name}."
     prompt += "You should reply in the same language as the last message in the conversation history. "
     prompt += "Unless the last message is asking for translation, then other languages are allowed. "
-    prompt += f"The followings are the conversation history: {new_line.join(formatted_history_messages)}"
+    prompt += f"The followings are the conversation history:{new_line}{new_line.join(formatted_history_messages)}"
     prompt += f"{new_line}{bot_name}: "
     print('prompt: ' + prompt)
     return prompt
