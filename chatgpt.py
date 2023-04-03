@@ -46,6 +46,6 @@ def ask_chatgpt(message):
         print('msg content: ' + str(response['choices'][0]['message']['content']))
         print('text: ' + str(response['choices'][0]['text']))
         return str(response['choices'][0]['text'])
-    except Exception e:
+    except Exception as e:
         print(e)
         return str(e)
