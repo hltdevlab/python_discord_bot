@@ -13,7 +13,7 @@ async def send_message(message, user_message, is_private):
         print(e)
 
 
-def get_history(channel, limit=10):
+async def get_history(channel, limit=10):
     messages = [message async for message in channel.history(limit=limit)]
     # messages is now a list of Message...
     print('----- history -----')
