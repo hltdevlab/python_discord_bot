@@ -19,6 +19,7 @@ async def get_history(channel, limit=10):
     print('----- history -----')
     for msg in messages:
         print(msg)
+        print('msg.content: ' + msg.content)
     print('----------')
     return messages
 
