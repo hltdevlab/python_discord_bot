@@ -36,7 +36,7 @@ def generate_prompt(formatted_history_messages):
 
 def ask_chatgpt(formatted_history_messages):
     print('sending to openai...')
-    prompt = generate_prompt()
+    prompt = generate_prompt(formatted_history_messages)
     response = openai.Completion.create(
         model = "text-davinci-003",
         #model = "gpt-3.5-turbo",
