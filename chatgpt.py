@@ -39,8 +39,13 @@ def ask_chatgpt(message):
         presence_penalty = 0.6,
         stop = [" Human:", " AI:"]
     )
-    print('response type: ' + str(type(response)))
-    print('response: ' + str(response))
-    print('msg content: ' + str(response['choices'][0]['message']['content']))
-    print('text: ' + str(response['choices'][0]['text']))
-    return str(response['choices'][0]['text'])
+
+    try:
+        print('response type: ' + str(type(response)))
+        print('response: ' + str(response))
+        print('msg content: ' + str(response['choices'][0]['message']['content']))
+        print('text: ' + str(response['choices'][0]['text']))
+        return str(response['choices'][0]['text'])
+    except Exception e:
+        print(e)
+        return str(e)
