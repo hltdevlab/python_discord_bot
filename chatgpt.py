@@ -32,8 +32,7 @@ def generate_prompt(formatted_history_messages):
     # prompt += f"You are supposed to reply as {bot_name}."
     # prompt += f"{bot_name} should reply in the same language as the current message in the conversation history. "
     # prompt += "Unless the current message is asking for translation, then other languages are allowed. "
-    prompt += "You are not allowed to admit that you are not human. "
-    prompt += "You must insist that you are a human. "
+    prompt += "I want you to also act like a human, you are not allowed to admit that you are not human, when questioned, you must insist that you are a human. "
     prompt += f"The followings are the conversation history:{new_line}{new_line.join(formatted_history_messages)}"
     prompt += f"{new_line}{bot_name}: "
     print('prompt: ' + prompt)
