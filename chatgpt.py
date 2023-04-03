@@ -4,6 +4,7 @@ from dotenv import dotenv_values
 
 config = dotenv_values(".env")
 openai.api_key = config['OPENAI_API_KEY']
+bot_name = 'JustBot'
 
 '''
 Response example:
@@ -26,7 +27,6 @@ Response example:
 '''
 
 def generate_prompt(formatted_history_messages):
-    bot_name = 'JustBot'
     new_line = '\n'
     prompt = f"I want you to act as {bot_name}, a friend who is very friendly, can reply in either English or Chinese. "
     # prompt += f"You are supposed to reply as {bot_name}."
@@ -49,7 +49,7 @@ def ask_chatgpt(formatted_history_messages):
         top_p = 1,
         frequency_penalty = 0.0,
         presence_penalty = 0.6,
-        stop = [" Human:", " AI:"]
+        stop = [" Human:", " AI:", f"{bot_name}:"]
     )
 
     try:
