@@ -18,12 +18,13 @@ async def get_history(channel, limit=10):
     # messages is now a list of Message...
     formatted_messages = format_history_messages(messages)
     formatted_messages.reverse()
-    
+    '''
     print('----- history -----')
     for msg in formatted_messages:
         print(msg)
         #print('msg.content: ' + msg.content)
     print('----------')
+    '''
     return formatted_messages
 
 
