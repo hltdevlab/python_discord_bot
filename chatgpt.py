@@ -43,9 +43,10 @@ def ask_chatgpt(message):
     try:
         print('response type: ' + str(type(response)))
         print('response: ' + str(response))
-        print('msg content: ' + str(response['choices'][0]['message']['content']))
+        # print('msg content: ' + str(response['choices'][0]['message']['content']))
         print('text: ' + str(response['choices'][0]['text']))
         return str(response['choices'][0]['text'])
     except Exception as e:
+        print('error when retrieving from response.')
         print(e)
-        return str(e)
+        return str('error when retrieving from response.')
