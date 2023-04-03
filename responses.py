@@ -1,7 +1,7 @@
 import random
 from chatgpt import ask_chatgpt
 
-def handle_response(message):
+def handle_response(message, formatted_history_messages=[]):
     p_message = message.lower()
 
     #if p_message == 'hello':
@@ -15,4 +15,4 @@ def handle_response(message):
 
     #return "I don't know what you said."
     
-    return ask_chatgpt(message)
+    return ask_chatgpt(formatted_history_messages)
