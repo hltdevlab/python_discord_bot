@@ -17,8 +17,13 @@ async def get_history(channel, limit=10):
     messages = [message async for message in channel.history(limit=limit)]
     # messages is now a list of Message...
     formatted_messages = format_history_messages(messages)
+    if formatted_messages is not None:
+        formatted_messages = formatted_messages.reverse()
+    else:
+        return ''
+
     print('----- history -----')
-    for msg in formatted_messages.reverse():
+    for msg in formatted_messages:
         print(msg)
         #print('msg.content: ' + msg.content)
     print('----------')
