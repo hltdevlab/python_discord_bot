@@ -19,7 +19,7 @@ async def send_message(message, user_message, is_private, formatted_history_mess
 
 async def send_reply(message, reply, is_private):
     try:
-        await message.author.send(response) if is_private else await message.channel.send(response)
+        await message.author.send(reply) if is_private else await message.channel.send(reply)
     except Exception as e:
         print(e)
 
