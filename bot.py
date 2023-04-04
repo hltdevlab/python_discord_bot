@@ -75,8 +75,7 @@ def run_discord_bot():
         print(f'{client.user} is now running!')
 
 
-    @client.event
-    async def on_message(message):
+    async def on_message_old(message):
         async with message.channel.typing():
             if message.author == client.user:
                 return
@@ -100,7 +99,8 @@ def run_discord_bot():
                 await send_message(message, user_message, is_private=False, formatted_history_messages=formatted_history_messages)
 
 
-    async def on_message2(message):
+    @client.event
+    async def on_message(message):
         if message.author == client.user:
             # if the bot's message, then ignore.
             return
