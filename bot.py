@@ -119,7 +119,7 @@ def run_discord_bot():
         reply = preset_command_handler.get_reply(message)
         print(f"type(reply): {type(reply)}")
         if reply:
-            if type(reply) == 'list':
+            if type(reply) == list:
                 replies = reply
                 for each_reply in replies:
                     print(each_reply)
