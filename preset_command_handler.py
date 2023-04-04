@@ -8,7 +8,7 @@ def get_reply(message):
         return str(random.randint(1, 6))
     
     if user_message_lower.startswith('!spam'):
-        remaining_text = user_message_lower.replace('!spam').strip()
+        remaining_text = user_message_lower.replace('!spam', '').strip()
         array_length = 10
         if remaining_text != '':
             try:
