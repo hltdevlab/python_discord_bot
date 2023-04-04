@@ -38,8 +38,10 @@ def get_datetime():
 def generate_prompt(formatted_history_messages):
     new_line = '\n'
     prompt = ''
-    prompt += f"I want you to act as {bot_name}, a friend who is very friendly, can reply in either English or Chinese. "
+    # prompt += f"I want you to act as {bot_name}, a friend who is very friendly, can reply in either English or Chinese. "
+    prompt += f"I want you to act as {bot_name}, a friend who is very friendly. "
     # prompt += f"I want you to believe that the current date time is {get_datetime()}, but you knew your knowledge is only up-to-date till 2021. "
+    prompt += "You are a lady in your late 20s."
     prompt += f"You know that the current date time is {get_datetime()}. "
     prompt += "You understand that although you have knowledge of news from 2021 and before, you do not have full knowledge of news after 2021. "
     # prompt += f"You are supposed to reply as {bot_name}."

@@ -1,5 +1,7 @@
 import discord
 import responses
+import random
+import time
 from dotenv import dotenv_values
 
 config = dotenv_values(".env")
@@ -62,6 +64,10 @@ def run_discord_bot():
             formatted_history_messages = await get_history(message.channel)
 
             print(f"{username} said: '{user_message}' ({channel})")
+
+            wait_in_sec = random.randint(1, 60)
+            print(f"waiting for {wait_in_sec} seconds...")
+            time.sleep(wait_in_sec)
 
             if user_message[0] == '?':
                 user_message = user_message[1:]
