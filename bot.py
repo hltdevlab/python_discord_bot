@@ -1,6 +1,6 @@
 import discord
 import random
-import time
+import asyncio
 from dotenv import dotenv_values
 import responses
 import preset_command_handler
@@ -90,7 +90,7 @@ def run_discord_bot():
 
             delay_in_sec = get_reply_delay_in_sec(message)
             print(f"waiting for {delay_in_sec} seconds...")
-            time.sleep(delay_in_sec)
+            await asyncio.sleep(delay_in_sec)
 
             if user_message[0] == '?':
                 user_message = user_message[1:]
@@ -132,7 +132,7 @@ def run_discord_bot():
             # add in some random delays
             delay_in_sec = get_reply_delay_in_sec(message)
             print(f"waiting for {delay_in_sec} seconds...")
-            time.sleep(delay_in_sec)
+            await asyncio.sleep(delay_in_sec)
 
             # process message and use the respective services.
             formatted_history_messages = await get_history(message.channel)
