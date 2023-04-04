@@ -122,6 +122,7 @@ def run_discord_bot():
             if type(reply) == 'list':
                 replies = reply
                 for each_reply in replies:
+                    print(each_reply)
                     await send_reply(message, each_reply, is_private=is_private)
             
             await send_reply(message, reply, is_private=is_private)
