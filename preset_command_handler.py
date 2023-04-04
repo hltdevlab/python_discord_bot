@@ -1,12 +1,13 @@
 import random
 
 def get_reply(message):
-    p_message = message.lower()
+    user_message = str(message.content)
+    user_message_lower = message.lower()
 
-    if p_message == '!roll':
+    if user_message_lower == '!roll':
         return str(random.randint(1, 6))
 
-    if p_message == '!help':
+    if user_message_lower == '!help':
         return '`This is a help message that you can modify.`'
 
     return None
