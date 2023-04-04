@@ -117,6 +117,7 @@ def run_discord_bot():
 
         # determine if message is a preset command or not.
         reply = preset_command_handler.get_reply(message)
+        print(f"type(reply): {type(reply)}")
         if reply:
             if type(reply) == 'list':
                 replies = reply
