@@ -31,7 +31,7 @@ Response example:
 def get_datetime():
     now = datetime.now()
     # Textual day, month and year, hours minutes seconds.	
-    datetime_str = today.strftime("%d %B %Y %H:%M:%S")
+    datetime_str = now.strftime("%d %B %Y %H:%M:%S")
     return datetime_str
 
 
