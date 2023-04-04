@@ -123,7 +123,7 @@ def run_discord_bot():
                 for each_reply in replies:
                     print(each_reply)
                     await send_reply(message, each_reply, is_private=is_private)
-                    return
+                return
             
             await send_reply(message, reply, is_private=is_private)
             return
