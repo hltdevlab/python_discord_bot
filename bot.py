@@ -117,13 +117,13 @@ def run_discord_bot():
 
         # determine if message is a preset command or not.
         reply = preset_command_handler.get_reply(message)
-        print(f"type(reply): {type(reply)}")
         if reply:
             if type(reply) == list:
                 replies = reply
                 for each_reply in replies:
                     print(each_reply)
                     await send_reply(message, each_reply, is_private=is_private)
+                    return
             
             await send_reply(message, reply, is_private=is_private)
             return
