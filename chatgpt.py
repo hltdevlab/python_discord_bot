@@ -1,6 +1,7 @@
 import os
 import openai
 from dotenv import dotenv_values
+from datetime import date
 
 config = dotenv_values(".env")
 openai.api_key = config['OPENAI_API_KEY']
@@ -26,9 +27,19 @@ Response example:
 }
 '''
 
+
+def get_datetime():
+    today = date.today()
+    # Textual day, month and year	
+    datetime_str = today.strftime("%d %B %Y")
+    return datetime_str
+
+
 def generate_prompt(formatted_history_messages):
     new_line = '\n'
-    prompt = f"I want you to act as {bot_name}, a friend who is very friendly, can reply in either English or Chinese. "
+    prompt = ''
+    prompt += f"Current date time is {get_datetime()}. "
+    prompt += f"I want you to act as {bot_name}, a friend who is very friendly, can reply in either English or Chinese. "
     # prompt += f"You are supposed to reply as {bot_name}."
     # prompt += f"{bot_name} should reply in the same language as the current message in the conversation history. "
     # prompt += "Unless the current message is asking for translation, then other languages are allowed. "
