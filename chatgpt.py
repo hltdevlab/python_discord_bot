@@ -39,7 +39,7 @@ def generate_prompt(formatted_history_messages):
     new_line = '\n'
     prompt = ''
     prompt += f"I want you to act as {bot_name}, a friend who is very friendly, can reply in either English or Chinese. "
-    prompt += f"I want you to believe that the current date time is {get_datetime()}. "
+    prompt += f"I want you to believe that the current date time is {get_datetime()}, but you knew your knowledge is only up-to-date till 2021."
     # prompt += f"You are supposed to reply as {bot_name}."
     # prompt += f"{bot_name} should reply in the same language as the current message in the conversation history. "
     # prompt += "Unless the current message is asking for translation, then other languages are allowed. "
