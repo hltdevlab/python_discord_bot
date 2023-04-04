@@ -2,7 +2,7 @@ import random
 
 def get_reply(message):
     user_message = str(message.content)
-    user_message_lower = message.lower()
+    user_message_lower = user_message.lower()
 
     if user_message_lower == '!roll':
         return str(random.randint(1, 6))
