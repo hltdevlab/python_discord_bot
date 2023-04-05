@@ -5,7 +5,6 @@ from datetime import datetime
 
 config = dotenv_values(".env")
 openai.api_key = config['OPENAI_API_KEY']
-bot_name = 'JustBot'
 
 '''
 Response example:
@@ -35,7 +34,7 @@ def get_datetime():
     return datetime_str
 
 
-def generate_prompt(formatted_history_messages):
+def generate_prompt(formatted_history_messages, bot_name=''):
     new_line = '\n'
     prompt = ''
     # prompt += f"I want you to act as {bot_name}, a friend who is very friendly, can reply in either English or Chinese. "
@@ -54,9 +53,9 @@ def generate_prompt(formatted_history_messages):
     return prompt
 
 
-def ask_chatgpt(formatted_history_messages):
+def ask_chatgpt(formatted_history_messages, bot_name=''):
     print('sending to openai...')
-    prompt = generate_prompt(formatted_history_messages)
+    prompt = generate_prompt(formatted_history_messages, bot_name=bot_name)
     response = openai.Completion.create(
         model = "text-davinci-003",
         #model = "gpt-3.5-turbo",
