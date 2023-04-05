@@ -24,7 +24,7 @@ async def send_reply(message, reply, is_private):
         print(e)
 
 
-async def get_history(channel, limit=config['HISTORY_MESSAGES_COUNT']):
+async def get_history(channel, limit=int(config['HISTORY_MESSAGES_COUNT'])):
     messages = [message async for message in channel.history(limit=limit)]
     # messages is now a list of Message...
     formatted_messages = format_history_messages(messages)
