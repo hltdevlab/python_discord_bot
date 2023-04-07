@@ -119,24 +119,5 @@ def __ask_chatgpt_threaded(formatted_history_messages, bot_name=''):
         return str('error when retrieving from response.')
 
 
-async def ask_chatgpt_2(formatted_history_messages, bot_name=''):
-    return await __ask_chatgpt_threaded(formatted_history_messages, bot_name=bot_name)
-
-
 async def ask_chatgpt(formatted_history_messages, bot_name=''):
-    print('sending to openai...')
-    messages = __generate_messages(formatted_history_messages, bot_name=bot_name)
-    response = await openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=messages
-    )
-
-    try:
-        reply = response.choices[0].message.content
-        print('response: ' + str(response))
-        print('reply: ' + str(reply))
-        return str(reply)
-    except Exception as e:
-        print('error when retrieving from response.')
-        print(e)
-        return str('error when retrieving from response.')
+    return await __ask_chatgpt_threaded(formatted_history_messages, bot_name=bot_name)
