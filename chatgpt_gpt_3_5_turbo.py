@@ -1,5 +1,7 @@
 import os
 import json
+import functools
+import asyncio
 import openai
 from dotenv import dotenv_values
 from datetime import datetime
@@ -90,8 +92,15 @@ def __generate_messages(formatted_history_messages, bot_name=''):
     print(f"messages: {stringified_messages}")
     return messages
 
+def __to_thread(func):
+    @functools.wraps(func)
+    async def wrapper(*args, **kwargs):
+        return await asyncio.to_thread(func, *args, **kwargs)
+    return wrapper
 
-def ask_chatgpt(formatted_history_messages, bot_name=''):
+
+@__to_thread
+def __ask_chatgpt(formatted_history_messages, bot_name=''):
     print('sending to openai...')
     messages = __generate_messages(formatted_history_messages, bot_name=bot_name)
     response = openai.ChatCompletion.create(
@@ -108,3 +117,7 @@ def ask_chatgpt(formatted_history_messages, bot_name=''):
         print('error when retrieving from response.')
         print(e)
         return str('error when retrieving from response.')
+
+
+def ask_chatgpt(formatted_history_messages, bot_name=''):
+    return await __ask_chatgpt(formatted_history_messages, bot_name=bot_name)
