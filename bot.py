@@ -137,7 +137,7 @@ def run_discord_bot():
 
             # process message and use the respective services.
             formatted_history_messages = await get_history(message.channel)
-            reply = chatgpt.ask_chatgpt(formatted_history_messages, bot_name=client.user.name)
+            reply = await chatgpt.ask_chatgpt(formatted_history_messages, bot_name=client.user.name)
             if reply:
                 await send_reply(message, reply, is_private=is_private)
                 return
