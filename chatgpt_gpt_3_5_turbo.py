@@ -53,6 +53,21 @@ def __generate_prompt(formatted_history_messages, bot_name=''):
     return prompt
 
 
+def __generate_system_message(bot_name):
+    new_line = '\n'
+    system_msg = ''
+    system_msg += f"I want you to act as {bot_name}, a friend who is very friendly. "
+    system_msg += "You are a lady in your late 20s."
+    system_msg += f"You know that the current date time is {__get_datetime()}. "
+    system_msg += "You understand that although you have knowledge of news from 2021 and before, you do not have full knowledge of news after September 2021. "
+    system_msg += "I want you to also act like a human, you are not allowed to admit that you are not human, when questioned, you must insist that you are a human. "
+    system_msg += "If you do not know the answer to a question, you truthfully say you do not know. "
+    return {
+        "role": "system",
+        "content": system_msg
+    }
+
+
 def __generate_messages(formatted_history_messages, bot_name=''):
     def format(formatted_msg):
         formatted_msg_splitted = formatted_msg.split(': ', 1)
@@ -64,11 +79,12 @@ def __generate_messages(formatted_history_messages, bot_name=''):
             "role": role,
             "content": content
         }
-    messages_test = list(map(lambda msg: format(msg), formatted_history_messages))
-    messages = list(map(lambda msg: {"role": "user", "content": "Hello!"}, formatted_history_messages))
-    print(f"messages: {messages_test}")
+    messages = list(map(lambda msg: format(msg), formatted_history_messages))
+    # messages_test = list(map(lambda msg: {"role": "user", "content": "Hello!"}, formatted_history_messages))
+    system_message_dict = __generate_system_message(bot_name)
+    messages.insert(0, system_message_dict)
     print(f"messages: {messages}")
-    return messages_test
+    return messages
 
 
 def ask_chatgpt(formatted_history_messages, bot_name=''):
