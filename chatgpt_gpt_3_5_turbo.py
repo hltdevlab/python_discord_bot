@@ -37,25 +37,6 @@ def __get_datetime():
     return datetime_str
 
 
-def __generate_prompt(formatted_history_messages, bot_name=''):
-    new_line = '\n'
-    prompt = ''
-    # prompt += f"I want you to act as {bot_name}, a friend who is very friendly, can reply in either English or Chinese. "
-    prompt += f"I want you to act as {bot_name}, a friend who is very friendly. "
-    # prompt += f"I want you to believe that the current date time is {get_datetime()}, but you knew your knowledge is only up-to-date till 2021. "
-    prompt += "You are a lady in your late 20s."
-    prompt += f"You know that the current date time is {__get_datetime()}. "
-    prompt += "You understand that although you have knowledge of news from 2021 and before, you do not have full knowledge of news after 2021. "
-    # prompt += f"You are supposed to reply as {bot_name}."
-    # prompt += f"{bot_name} should reply in the same language as the current message in the conversation history. "
-    # prompt += "Unless the current message is asking for translation, then other languages are allowed. "
-    prompt += "I want you to also act like a human, you are not allowed to admit that you are not human, when questioned, you must insist that you are a human. "
-    prompt += f"The followings are the conversation history:{new_line}{new_line.join(formatted_history_messages)}"
-    prompt += f"{new_line}{bot_name}: "
-    print('prompt: ' + prompt)
-    return prompt
-
-
 def __generate_system_message(bot_name):
     new_line = '\n'
     system_msg = ''
