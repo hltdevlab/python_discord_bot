@@ -109,7 +109,9 @@ def run_discord_bot():
         username = str(message.author)
         user_message = str(message.clean_content)
         channel = str(message.channel)
-        reference = message.reference
+        if message.reference:
+            reference_msg = message.reference.resolved
+            print(f"reference_msg: {reference_msg}")
         print(f"{username} said: '{user_message}' ({channel})")
         print(f"reference: {reference}")
 
