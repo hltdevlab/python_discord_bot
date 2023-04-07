@@ -1,4 +1,5 @@
 import os
+import json
 import openai
 from dotenv import dotenv_values
 from datetime import datetime
@@ -83,7 +84,9 @@ def __generate_messages(formatted_history_messages, bot_name=''):
     # messages_test = list(map(lambda msg: {"role": "user", "content": "Hello!"}, formatted_history_messages))
     system_message_dict = __generate_system_message(bot_name)
     messages.insert(0, system_message_dict)
-    print(f"messages: {messages}")
+    
+    stringified_messages = json.dumps(messages, indent=2)
+    print(f"messages: {stringified_messages}")
     return messages
 
 
