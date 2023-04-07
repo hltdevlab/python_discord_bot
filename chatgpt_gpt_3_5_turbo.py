@@ -78,13 +78,11 @@ def ask_chatgpt(formatted_history_messages, bot_name=''):
         model="gpt-3.5-turbo",
         messages=messages
     )
-
-    print(response.choices[0].message)
-
+    
     try:
         print('response: ' + str(response))
-        print('text: ' + str(response.choices[0].message))
-        return str(response.choices[0].message)
+        print('text: ' + str(response.choices[0].message.text))
+        return str(response.choices[0].message.text)
     except Exception as e:
         print('error when retrieving from response.')
         print(e)
