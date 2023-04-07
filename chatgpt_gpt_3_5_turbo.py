@@ -119,5 +119,5 @@ def __ask_chatgpt(formatted_history_messages, bot_name=''):
         return str('error when retrieving from response.')
 
 
-def ask_chatgpt(formatted_history_messages, bot_name=''):
+async def ask_chatgpt(formatted_history_messages, bot_name=''):
     return await __ask_chatgpt(formatted_history_messages, bot_name=bot_name)
