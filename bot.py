@@ -4,7 +4,8 @@ import asyncio
 from dotenv import dotenv_values
 import responses
 import preset_command_handler
-import chatgpt
+# import chatgpt
+import chatgpt_gpt_3_5_turbo as chatgpt
 
 config = dotenv_values(".env")
 
