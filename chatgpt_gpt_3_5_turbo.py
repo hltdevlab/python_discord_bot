@@ -60,12 +60,13 @@ def __generate_messages(formatted_history_messages, bot_name=''):
         message = formatted_msg_splitted[1]
         role = 'assistant' if user_name == bot_name else 'user'
         content = message if user_name == bot_name else formatted_msg
-        # return {
-        #     "role": role,
-        #     "content": content
-        # }
-        return {"role": "user", "content": "Hello!"}
-    messages = list(map(lambda msg: format(msg), formatted_history_messages))
+        return {
+            "role": role,
+            "content": content
+        }
+    messages_test = list(map(lambda msg: format(msg), formatted_history_messages))
+    messages = list(map(lambda msg: {"role": "user", "content": "Hello!"}, formatted_history_messages))
+    print(f"messages: {messages_test}")
     print(f"messages: {messages}")
     return messages
 
