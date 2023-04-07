@@ -68,7 +68,7 @@ def __generate_messages(formatted_history_messages, bot_name=''):
     messages = list(map(lambda msg: {"role": "user", "content": "Hello!"}, formatted_history_messages))
     print(f"messages: {messages_test}")
     print(f"messages: {messages}")
-    return messages
+    return messages_test
 
 
 def ask_chatgpt(formatted_history_messages, bot_name=''):
