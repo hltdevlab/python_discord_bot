@@ -42,7 +42,7 @@ async def get_history(channel, limit=int(config['HISTORY_MESSAGES_COUNT'])):
 
 def format_history_message(message):
     username = str(message.author.name)
-    user_message = str(message.content)
+    user_message = str(message.clean_content)
     return f"{username}: {user_message}"
 
 
@@ -107,9 +107,11 @@ def run_discord_bot():
             return
 
         username = str(message.author)
-        user_message = str(message.content)
+        user_message = str(message.clean_content)
         channel = str(message.channel)
+        reference = message.reference
         print(f"{username} said: '{user_message}' ({channel})")
+        print(f"reference: {reference}")
 
         is_private = is_to_reply_in_private(message)
         if is_private:
