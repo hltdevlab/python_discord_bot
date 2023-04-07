@@ -113,7 +113,6 @@ def run_discord_bot():
             reference_msg = message.reference.resolved
             print(f"reference_msg: {reference_msg}")
         print(f"{username} said: '{user_message}' ({channel})")
-        print(f"reference: {reference}")
 
         is_private = is_to_reply_in_private(message)
         if is_private:
