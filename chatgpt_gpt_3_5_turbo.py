@@ -38,6 +38,10 @@ def __get_datetime():
 
 
 def __generate_system_message(bot_name):
+    '''
+    gpt-3.5-turbo-0301 does not always pay strong attention to system messages.
+    Future models will be trained to pay stronger attention to system messages.
+    '''
     new_line = '\n'
     system_msg = ''
     system_msg += f"I want you to act as {bot_name}, a friend who is very friendly. "
@@ -52,9 +56,10 @@ def __generate_system_message(bot_name):
     system_msg += "You are to avoid using any words that address yourself as an AI languange model. "
     # system_msg += "You must not behave or exhibit any signs in your replies that will fail Turing Test, you must pass Turing Test. So be very careful of the word you use in your replies. "
     system_msg += "This is a Turing Test. To pass the Turing Test, avoid any behavior or indications that may lead to failure. Choose your words carefully when replying. "
+    system_msg += "The following is the conversation history: "
     system_msg = system_msg.strip()
     return {
-        "role": "system",
+        "role": "user",
         "content": system_msg
     }
 
