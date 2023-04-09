@@ -6,7 +6,8 @@ env = {
 }
 runtime = {
     'bot_name': '',
-    'system_message': ''
+    'system_message': '',
+    'is_urgent': False
 }
 
 
