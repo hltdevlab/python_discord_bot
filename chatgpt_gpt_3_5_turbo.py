@@ -33,18 +33,6 @@ Response example:
 }
 '''
 
-def init_openai_api_key():
-    if openai.api_key:
-        return
-    
-    try:
-        print(f"env: {config.env}")
-        print(f"openai.api_key: {openai.api_key}")
-        openai.api_key = config.env['OPENAI_API_KEY']
-    except KeyError as e:
-        print(e)
-
-
 def __get_datetime():
     now = datetime.now()
     # Textual day, month and year, hours minutes seconds.	
