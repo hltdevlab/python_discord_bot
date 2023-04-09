@@ -33,7 +33,7 @@ def get_reply(message):
     if user_message_lower.startswith('!spam'):
         return __spam(message)
     
-    if user_message_lower == '!toggle_urgent':
+    if user_message_lower == '!toggle urgent':
         return __toggle_urgent()
 
     if user_message_lower == '!help':
