@@ -10,7 +10,7 @@ runtime = {
 
 def init():
     envOrderedDict = dotenv_values(".env")
-    for key, value in envOrderedDict:
+    for key, value in envOrderedDict.items():
         env[key] = value
     print(env)
     print('config initialised.')
