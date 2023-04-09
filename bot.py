@@ -9,7 +9,7 @@ import preset_command_handler
 import chatgpt_gpt_3_5_turbo as chatgpt
 
 #config = dotenv_values(".env")
-
+print(f"config.env: {config.env}")
 
 async def send_message(message, user_message, is_private, formatted_history_messages=[]):
     try:
