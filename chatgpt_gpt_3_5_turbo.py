@@ -93,11 +93,15 @@ def __generate_messages(formatted_history_messages, bot_name=''):
 
 
 def __generate_stop(bot_name=config.runtime['bot_name']):
+    print(f"bot_name: {bot_name}")
     split_result = bot_name.split(' ')
+    print(f"split_result: {split_result}")
     stop = list(filter(lambda x: x != '', split_result))
+    print(f"stop: {stop}")
     stop = list(map(lambda x: f"{x}:", stop))
+    print(f"stop: {stop}")
     stop.append(f"{bot_name}:")
-    print(stop)
+    print(f"stop: {stop}")
     return stop
 
 
