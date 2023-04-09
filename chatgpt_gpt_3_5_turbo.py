@@ -3,6 +3,7 @@ import json
 import functools
 import asyncio
 import openai
+import system_message
 from dotenv import dotenv_values
 from datetime import datetime
 
@@ -42,6 +43,11 @@ def __generate_system_message(bot_name):
     gpt-3.5-turbo-0301 does not always pay strong attention to system messages.
     Future models will be trained to pay stronger attention to system messages.
     '''
+    system_msg = system_message.load()
+    
+    if system_message === "":
+        pass
+
     new_line = '\n'
     system_msg = ''
     system_msg += f"I want you to act as {bot_name}, a friend who is very friendly. "
