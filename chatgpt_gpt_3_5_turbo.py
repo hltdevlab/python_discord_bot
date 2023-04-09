@@ -3,12 +3,13 @@ import json
 import functools
 import asyncio
 import openai
+import config
 import system_message
 from dotenv import dotenv_values
 from datetime import datetime
 
-config = dotenv_values(".env")
-openai.api_key = config['OPENAI_API_KEY']
+#config = dotenv_values(".env")
+openai.api_key = config.env['OPENAI_API_KEY']
 
 '''
 Response example:

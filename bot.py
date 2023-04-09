@@ -2,12 +2,13 @@ import discord
 import random
 import asyncio
 from dotenv import dotenv_values
+import config
 import responses
 import preset_command_handler
 # import chatgpt
 import chatgpt_gpt_3_5_turbo as chatgpt
 
-config = dotenv_values(".env")
+#config = dotenv_values(".env")
 
 
 async def send_message(message, user_message, is_private, formatted_history_messages=[]):
@@ -25,7 +26,7 @@ async def send_reply(message, reply, is_private):
         print(e)
 
 
-async def get_history(channel, limit=int(config['HISTORY_MESSAGES_COUNT'])):
+async def get_history(channel, limit=int(config.env['HISTORY_MESSAGES_COUNT'])):
     messages = [message async for message in channel.history(limit=limit)]
     # messages is now a list of Message...
     formatted_messages = format_history_messages(messages)
@@ -66,7 +67,7 @@ def get_reply_delay_in_sec(message):
 
 
 def run_discord_bot():
-    TOKEN = config['BOT_TOKEN']
+    TOKEN = config.env['BOT_TOKEN']
     intents = discord.Intents.default()
     intents.message_content = True
     client = discord.Client(intents=intents)
@@ -74,6 +75,8 @@ def run_discord_bot():
     @client.event
     async def on_ready():
         print(f'{client.user} is now running!')
+        config.runtime['bot_name'] = client.user.name
+        print(f"runtime: {config.runtime}")
 
 
     async def on_message_old(message):
