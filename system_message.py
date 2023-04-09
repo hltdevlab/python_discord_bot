@@ -1,6 +1,6 @@
 import datetime
 
-def read_system_message(file_path='system_message.txt', bot_name=''):
+def load(file_path='system_message.txt', bot_name=''):
     try:
         with open(file_path, 'r') as file:
             system_message = file.read()
