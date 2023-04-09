@@ -9,7 +9,7 @@ from dotenv import dotenv_values
 from datetime import datetime
 
 #config = dotenv_values(".env")
-#print(f"env: {config.env}")
+print(f"env at chatgpt: {config.env}")
 #print(f"openai.api_key: {openai.api_key}")
 #openai.api_key = config.env['OPENAI_API_KEY']
 

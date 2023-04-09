@@ -1,7 +1,9 @@
 import system_message
 from dotenv import dotenv_values
 
-env = {}
+env = {
+    'env_loaded': False
+}
 runtime = {
     'bot_name': '',
     'system_message': ''
@@ -9,9 +11,14 @@ runtime = {
 
 
 def init():
+    if env['env_loaded']:
+        return
+    
     envOrderedDict = dotenv_values(".env")
     for key, value in envOrderedDict.items():
         env[key] = value
+    
+    env['env_loaded'] = True
     print('config initialised.')
 
 
@@ -25,3 +32,6 @@ def get_system_message():
         runtime['system_message'] = system_message.load(bot_name=bot_name)
     
     return runtime['system_message']
+
+
+config.init()
