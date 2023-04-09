@@ -45,7 +45,7 @@ def __generate_system_message(bot_name):
     '''
     system_msg = system_message.load(bot_name=bot_name)
     
-    if system_message === "":
+    if system_message == "":
         new_line = '\n'
         system_msg = ''
         system_msg += f"I want you to act as {bot_name}, a friend who is very friendly. "
