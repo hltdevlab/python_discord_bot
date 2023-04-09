@@ -34,4 +34,4 @@ def get_system_message():
     return runtime['system_message']
 
 
-config.init()
+init()
