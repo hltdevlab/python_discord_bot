@@ -91,6 +91,16 @@ def __generate_messages(formatted_history_messages, bot_name=''):
     print(f"messages: {stringified_messages}")
     return messages
 
+
+def __generate_stop(bot_name=config.runtime['bot_name']):
+    split_result = bot_name.split(' ')
+    stop = list(filter(lambda x: x != '', split_result))
+    stop = list(map(lambda x: f"{x}:", stop))
+    stop.append(f"{bot_name}:")
+    print(stop)
+    return stop
+
+
 def __to_thread(func):
     @functools.wraps(func)
     async def wrapper(*args, **kwargs):
@@ -103,10 +113,12 @@ def __ask_chatgpt_threaded(formatted_history_messages, bot_name=''):
     print('sending to openai...')
     try:
         messages = __generate_messages(formatted_history_messages, bot_name=bot_name)
+        stop = __generate_stop()
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=messages,
-            stop = [f"{bot_name}:"]
+            # stop = [f"{bot_name}:"]
+            stop=stop
         )
         
         reply = response.choices[0].message.content
