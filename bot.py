@@ -76,6 +76,7 @@ def run_discord_bot():
     async def on_ready():
         print(f'{client.user} is now running!')
         config.runtime['bot_name'] = client.user.name
+        config.get_system_message()
         print(f"runtime: {config.runtime}")
 
 
