@@ -61,6 +61,9 @@ def get_reply_delay_in_sec(message):
     user_message = str(message.content)
     user_message_lower = user_message.lower()
 
+    if config.runtime['is_urgent']:
+        return 0
+    
     if 'now' in user_message_lower:
         return 0
 
