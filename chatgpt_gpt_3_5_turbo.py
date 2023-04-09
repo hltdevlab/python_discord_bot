@@ -43,7 +43,7 @@ def __generate_system_message(bot_name):
     gpt-3.5-turbo-0301 does not always pay strong attention to system messages.
     Future models will be trained to pay stronger attention to system messages.
     '''
-    system_msg = system_message.load()
+    system_msg = system_message.load(bot_name=bot_name)
     
     if system_message === "":
         pass
