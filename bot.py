@@ -10,7 +10,7 @@ import chatgpt_gpt_3_5_turbo as chatgpt
 
 #config = dotenv_values(".env")
 # config.init()
-print(f"config.env at bot: {config.env}")
+# print(f"config.env at bot: {config.env}")
 
 async def send_message(message, user_message, is_private, formatted_history_messages=[]):
     try:
@@ -76,9 +76,8 @@ def run_discord_bot():
     @client.event
     async def on_ready():
         print(f'{client.user} is now running!')
-        config.runtime['bot_name'] = client.user.name
-        config.get_system_message()
-        print(f"runtime: {config.runtime}")
+        config.init_bot_name(client.user.name)
+        config.init_system_message()
 
 
     async def on_message_old(message):
