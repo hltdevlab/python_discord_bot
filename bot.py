@@ -75,9 +75,9 @@ def run_discord_bot():
 
     @client.event
     async def on_ready():
-        print(f'{client.user} is now running!')
         config.init_bot_name(client.user.name)
         config.init_system_message()
+        print(f'{client.user} is now running!')
 
 
     async def on_message_old(message):
