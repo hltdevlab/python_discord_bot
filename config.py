@@ -9,7 +9,7 @@ runtime = {
 
 
 def init():
-    env = dotenv_values(".env")
+    env = dict(dotenv_values(".env"))
     print(env)
     print('config initialised.')
 
