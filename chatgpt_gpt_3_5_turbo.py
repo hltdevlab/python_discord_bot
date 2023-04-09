@@ -10,6 +10,7 @@ from datetime import datetime
 
 #config = dotenv_values(".env")
 print(f"env: {config.env}")
+print(f"openai.api_key: {openai.api_key}")
 openai.api_key = config.env['OPENAI_API_KEY']
 
 '''
@@ -31,6 +32,13 @@ Response example:
   ]
 }
 '''
+
+def init_openai_api_key():
+    try:
+        print(f"env: {config.env}")
+        openai.api_key = config.env['OPENAI_API_KEY']
+    except KeyError as e:
+        print(e)
 
 
 def __get_datetime():
