@@ -92,7 +92,10 @@ def __generate_messages(formatted_history_messages, bot_name=''):
     return messages
 
 
-def __generate_stop(bot_name=config.runtime['bot_name']):
+def __generate_stop(bot_name=''):
+    if bot_name == '':
+        bot_name = config.runtime['bot_name']
+    
     print(f"bot_name: {bot_name}")
     split_result = bot_name.split(' ')
     print(f"split_result: {split_result}")
