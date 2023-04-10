@@ -21,8 +21,9 @@ async def send_message(message, user_message, is_private, formatted_history_mess
 
 
 async def send_reply(message, reply, is_private):
+    the_reply = f"/tts {reply}" if config.runtime['is_tts'] else reply
     try:
-        await message.author.send(reply) if is_private else await message.channel.send(reply)
+        await message.author.send(the_reply) if is_private else await message.channel.send(the_reply)
     except Exception as e:
         print(e)
 
