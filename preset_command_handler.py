@@ -9,6 +9,14 @@ def __toggle_urgent():
     return f"```is_urgent = {config.runtime['is_urgent']}```"
 
 
+def __toggle_tts():
+    if 'is_tts' not in config.runtime:
+        config.runtime['is_tts'] = False
+    
+    config.runtime['is_tts'] = not config.runtime['is_tts']
+    return f"```is_tts = {config.runtime['is_tts']}```"
+
+
 def __spam(message):
     user_message = str(message.clean_content)
     user_message_lower = user_message.lower()
@@ -35,6 +43,9 @@ def get_reply(message):
     
     if user_message_lower == '!toggle urgent':
         return __toggle_urgent()
+
+    if user_message_lower == '!toggle tts':
+        return __toggle_tts()
 
     if user_message_lower == '!help':
         return '`This is a help message that you can modify.`'
