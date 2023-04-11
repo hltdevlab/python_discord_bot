@@ -121,8 +121,7 @@ def __ask_chatgpt_threaded(formatted_history_messages, bot_name=''):
             model="gpt-3.5-turbo",
             messages=messages,
             # stop = [f"{bot_name}:"]
-            stop=stop,
-            n=3
+            stop=stop
         )
         
         reply = response.choices[0].message.content
