@@ -11,10 +11,11 @@ def __is_punkt_exist(nltk_data_dir):
 # default is download to: /root/nltk_data
 # use download_dir to change path.
 download_dir = './nltk_data'
+nltk.data.path.append(download_dir)
+print(f"nltk.data.path: {nltk.data.path}")
 
 if not __is_punkt_exist(download_dir):
     nltk.download('punkt', download_dir=download_dir)
-    nltk.data.path.append(download_dir)
 else:
     print('punkt already exist.')
 
