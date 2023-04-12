@@ -14,6 +14,7 @@ download_dir = './nltk_data'
 
 if not __is_punkt_exist(download_dir):
     nltk.download('punkt', download_dir=download_dir)
+    nltk.data.path.append(download_dir)
 else:
     print('punkt already exist.')
 
