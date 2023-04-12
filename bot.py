@@ -155,7 +155,13 @@ def run_discord_bot():
                 formatted_history_messages.insert(-1, ref_entry)
 
             reply = await chatgpt.ask_chatgpt(formatted_history_messages, bot_name=client.user.name)
-            if reply:
+            if reply and type(reply) == list:
+                replies = reply
+                for each_reply in replies:
+                    print(each_reply)
+                    await send_reply(message, each_reply, is_private=is_private)
+                    return
+            else:
                 await send_reply(message, reply, is_private=is_private)
                 return
 
