@@ -126,22 +126,26 @@ def __ask_chatgpt_threaded(formatted_history_messages, bot_name=''):
         )
         
         reply = response.choices[0].message.content
-        replies = sentence_breaker.get_sentences(reply)
         print('response: ' + str(response))
         print('reply: ' + str(reply))
-        #return str(reply)
-        return replies
+
+        if config.runtime['is_tts']:
+            # only break into sentences if is tts.
+            replies = sentence_breaker.get_sentences(reply)
+            return replies
+        
+        return str(reply)
 
     except openai.error.RateLimitError as e:
         err_msg = 'error when sending to openai.'
         print(err_msg)
-        print(e)
+        print(f"Error at __ask_chatgpt_threaded(): {e}")
         return str(err_msg)
         
     except Exception as e:
         err_msg = 'error when retrieving from response.'
         print(err_msg)
-        print(e)
+        print(f"Error at __ask_chatgpt_threaded(): {e}")
         return str(err_msg)
 
 

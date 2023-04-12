@@ -24,10 +24,11 @@ async def send_reply(message, reply, is_private):
     is_tts = config.runtime['is_tts']
     print(f"message.channel: {message.channel}")
     print(f"is_private: {is_private}")
+    print(f"reply sending to discord: {reply}")
     try:
         await message.author.send(reply, tts=is_tts) if is_private else await message.channel.send(reply, tts=is_tts)
     except Exception as e:
-        print(e)
+        print(f"Error at send_reply(): {e}")
 
 
 async def get_history(channel, limit=int(config.env['HISTORY_MESSAGES_COUNT'])):
@@ -160,7 +161,6 @@ def run_discord_bot():
             if reply and type(reply) == list:
                 replies = reply
                 for each_reply in replies:
-                    print(each_reply)
                     await send_reply(message, each_reply, is_private=is_private)
                 return
             else:
