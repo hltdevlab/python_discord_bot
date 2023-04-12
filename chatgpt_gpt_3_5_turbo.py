@@ -5,6 +5,7 @@ import asyncio
 import openai
 import config
 import system_message
+import sentence_breaker
 from dotenv import dotenv_values
 from datetime import datetime
 
@@ -125,9 +126,11 @@ def __ask_chatgpt_threaded(formatted_history_messages, bot_name=''):
         )
         
         reply = response.choices[0].message.content
+        replies = sentence_breaker.get_sentences(reply)
         print('response: ' + str(response))
         print('reply: ' + str(reply))
-        return str(reply)
+        #return str(reply)
+        return replies
 
     except openai.error.RateLimitError as e:
         err_msg = 'error when sending to openai.'
