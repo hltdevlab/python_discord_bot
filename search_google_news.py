@@ -6,6 +6,7 @@ def __extract(elem, name, css, attribute=None):
         target_elem = elem if css == "*" else elem.select_one(css)
         if target_elem:
             extracted = target_elem[attribute] if attribute else target_elem.text
+            extracted = " ".join(extracted.splitlines())
             output = f"{name}: {extracted.strip()}"
             # print(output)
             return output
