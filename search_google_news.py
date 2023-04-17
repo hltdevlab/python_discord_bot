@@ -18,7 +18,7 @@ def __extract(elem, name, css, attribute=None):
 
 def __scrap_item(elem):
     output_arr = [
-        "---",
+        "--- article ---",
         __extract(elem, "title", '[role="heading"]'),
         __extract(elem, "content", '[role="heading"] + div'),
         __extract(elem, "datetime", '[role="heading"] + div + span + div'),
