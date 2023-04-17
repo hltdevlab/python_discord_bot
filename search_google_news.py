@@ -30,6 +30,9 @@ def __scrap_item(elem):
 
 
 def search_google_news(query):
+    if query is None or query == '':
+        query = 'Singapore news today'
+
     url = f"https://www.google.com.sg/search?q={query}&tbm=nws&num=10"
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
@@ -43,7 +46,11 @@ def search_google_news(query):
     article_elems = soup.select('#search [data-hveid][data-ved] a')
     # print(f"article_elems: {len(article_elems)}")
 
-    output_arr = list(map(lambda x: __scrap_item(x), article_elems))
+    return list(map(lambda x: __scrap_item(x), article_elems))
+
+
+def search_google_news_str(query):
+    output_arr = search_google_news(query)
     return "\n\n".join(output_arr)
 
 
