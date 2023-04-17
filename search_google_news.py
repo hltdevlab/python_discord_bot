@@ -21,8 +21,8 @@ def __scrap_item(elem):
         __extract(elem, "title", '[role="heading"]'),
         __extract(elem, "content", '[role="heading"] + div'),
         __extract(elem, "datetime", '[role="heading"] + div + span + div'),
-        __extract(elem, "source", 'g-img + span'),
-        __extract(elem, "url", '*', attribute='href')
+        __extract(elem, "source", 'g-img + span')
+        # __extract(elem, "url", '*', attribute='href')
     ]
     output_arr = list(filter(lambda x: x != None, output_arr))
     # print(f"output_arr: {output_arr}")
