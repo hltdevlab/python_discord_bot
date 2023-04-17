@@ -1,5 +1,6 @@
 import random
 import config
+from search_google_news import search_google_news
 
 def __toggle_urgent():
     if 'is_urgent' not in config.runtime:
@@ -31,6 +32,13 @@ def __spam(message):
     return ["." for x in range(array_length)]
 
 
+def __search_google_news(message):
+    user_message = str(message.content)
+    user_message_lower = user_message.lower()
+    query = user_message_lower.replace('!news', '').strip()
+    return search_google_news(query)
+
+
 def get_reply(message):
     user_message = str(message.content)
     user_message_lower = user_message.lower()
@@ -40,6 +48,9 @@ def get_reply(message):
     
     if user_message_lower.startswith('!spam'):
         return __spam(message)
+
+    if user_message_lower.startswith('!news'):
+        return __search_google_news(message)
     
     if user_message_lower == '!toggle urgent':
         return __toggle_urgent()
