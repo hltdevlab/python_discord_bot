@@ -43,11 +43,11 @@ def search_google_news(query):
     }
 
     response = requests.get(url, headers=headers)
-    print(f"response: {response.content}")
+    # print(f"response: {response.content}")
     soup = BeautifulSoup(response.content, 'html.parser')
-    print(f"soup: {soup}")
+    # print(f"soup: {soup}")
     article_elems = soup.select('#search [data-hveid][data-ved] a')
-    print(f"article_elems: {len(article_elems)}")
+    # print(f"article_elems: {len(article_elems)}")
 
     return list(map(lambda x: __scrap_item(x), article_elems))
 
