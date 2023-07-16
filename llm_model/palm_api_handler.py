@@ -98,19 +98,21 @@ def __generate_history_messages(formatted_history_messages):
             Messages History:
             {new_line.join(formatted_history_messages)}
             '''.strip()
+
+        print(f"history_messages: {history_messages}")
         return history_messages
     
     return ''
 
 
 def __generate_prompt(formatted_history_messages, bot_name=''):
-    system_msg = system_message.load(bot_name=bot_name).strip()
+    #system_msg = system_message.load(bot_name=bot_name).strip()
+    system_msg = config.runtime['system_message']
     history_msg = __generate_history_messages(formatted_history_messages)
     prompt = f'''
         {system_msg}
         {history_msg}
         '''.strip()
-    print(f"prompt: {prompt}")
 
     return prompt
 
@@ -159,7 +161,8 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
         #)
         
         reply = response.result
-        print('response: ' + str(response))
+        print('response: ')
+        pprint.pprint(response)
         print('reply: ' + str(reply))
 
         if config.runtime['is_tts']:
