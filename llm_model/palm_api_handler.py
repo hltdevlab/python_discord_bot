@@ -93,9 +93,10 @@ def __generate_stop(bot_name=''):
 
 def __generate_history_messages(formatted_history_messages):
     if formatted_history_messages is not None and len(formatted_history_messages) > 0:
+        new_line = '\n'
         text = f'''
         Messages History:
-        {'\n'.join(formatted_history_messages)}
+        {new_line.join(formatted_history_messages)}
         '''
         return text
     
