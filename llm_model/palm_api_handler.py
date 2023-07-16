@@ -94,11 +94,11 @@ def __generate_stop(bot_name=''):
 def __generate_history_messages(formatted_history_messages):
     if formatted_history_messages is not None and len(formatted_history_messages) > 0:
         new_line = '\n'
-        text = f'''
-        Messages History:
-        {new_line.join(formatted_history_messages)}
-        '''
-        return text
+        history_messages = f'''
+            Messages History:
+            {new_line.join(formatted_history_messages)}
+            '''.strip()
+        return history_messages
     
     return ''
 
@@ -107,9 +107,9 @@ def __generate_prompt(formatted_history_messages, bot_name=''):
     system_msg = system_message.load(bot_name=bot_name).strip()
     history_msg = __generate_history_messages(formatted_history_messages)
     prompt = f'''
-    {system_msg}
-    {history_msg}
-    '''
+        {system_msg}
+        {history_msg}
+        '''.strip()
     print(f"prompt: {prompt}")
 
     return prompt
