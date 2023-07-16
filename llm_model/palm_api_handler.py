@@ -147,7 +147,7 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
             model=model,
             prompt=prompt,
             temperature=0,
-            stop_sentences=[f"{bot_name}:"],
+            stop_sequences=[f"{bot_name}:"],
             # The maximum length of the response
             max_output_tokens=800,
         )
