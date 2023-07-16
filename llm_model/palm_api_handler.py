@@ -153,6 +153,9 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
             max_output_tokens=800,
         )
 
+        print('response: ')
+        pprint.pprint(response)
+
         #messages = __generate_messages(formatted_history_messages, bot_name=bot_name)
         #stop = __generate_stop()
         #response = openai.ChatCompletion.create(
@@ -169,8 +172,6 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
             unwanted_text, reply = reply.split(f"{bot_name}:", maxsplit=1)
             reply = reply.strip()
 
-        print('response: ')
-        pprint.pprint(response)
         print('reply: ' + str(reply))
 
         if config.runtime['is_tts']:
