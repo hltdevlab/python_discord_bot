@@ -165,7 +165,7 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
         #    stop=stop
         #)
         
-        reply = response.result
+        reply = response.result if response.result is not None else ''
 
         if f"{bot_name}:" in reply:
             print('bot name found in reply, cleaning up...')
