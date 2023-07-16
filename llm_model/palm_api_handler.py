@@ -2,6 +2,7 @@ import os
 import json
 import functools
 import asyncio
+import traceback
 
 #import openai
 import pprint
@@ -183,6 +184,7 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
         err_msg = 'error when retrieving from response.'
         print(err_msg)
         print(f"Error at __ask_llm_threaded(): {e}")
+        traceback.print_exec()
         return str(err_msg)
 
 
