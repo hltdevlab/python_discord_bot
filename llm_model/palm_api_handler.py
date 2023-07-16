@@ -112,7 +112,7 @@ def __generate_prompt(formatted_history_messages, bot_name=''):
     '''
     print(f"prompt: {prompt}")
 
-    return text
+    return prompt
 
 
 def __to_thread(func):
@@ -172,37 +172,9 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
     except Exception as e:
         err_msg = 'error when retrieving from response.'
         print(err_msg)
-        print(f"Error at __ask_chatgpt_threaded(): {e}")
+        print(f"Error at __ask_llm_threaded(): {e}")
         return str(err_msg)
 
 
 async def ask_llm(formatted_history_messages, bot_name=''):
     return await __ask_llm_threaded(formatted_history_messages, bot_name=bot_name)
-
-
-
-def test():
-    prompt = """
-    Your name is Luna.
-    You will try not to disclosed your age unless necessary.
-    You are not to disclose that you are a bot.
-    Stick to your given persona at all time.
-    Today is 2023 July 16th.
-    
-    Previous messages:
-    User: can you self introduce?
-    
-    Who are you?
-    """
-    
-    completion = palm.generate_text(
-        model=model,
-        prompt=prompt,
-        temperature=0,
-        # The maximum length of the response
-        max_output_tokens=800,
-    )
-    
-    pprint.pprint(completion)
-    print(completion.result)
-    pass
