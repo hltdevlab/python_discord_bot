@@ -7,6 +7,7 @@ import responses
 import preset_command_handler
 # import chatgpt
 import chatgpt_gpt_3_5_turbo as chatgpt
+import llm_model.palm_api_handler as llm
 
 #config = dotenv_values(".env")
 # config.init()
@@ -157,7 +158,7 @@ def run_discord_bot():
                 ref_entry = f"{ref_username}: Reference: {ref_message}"
                 formatted_history_messages.insert(-1, ref_entry)
 
-            reply = await chatgpt.ask_chatgpt(formatted_history_messages, bot_name=client.user.name)
+            reply = await llm.ask_llm(formatted_history_messages, bot_name=client.user.name)
             if reply and type(reply) == list:
                 replies = reply
                 for each_reply in replies:
