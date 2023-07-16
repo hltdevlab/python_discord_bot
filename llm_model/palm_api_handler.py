@@ -162,6 +162,12 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
         #)
         
         reply = response.result
+
+        if f"{bot_name}:" in reply:
+            print('bot name found in reply, cleaning up...')
+            unwanted_text, reply = reply.split(f"{bot_name}:", maxsplit=1)
+            reply = reply.strip()
+
         print('response: ')
         pprint.pprint(response)
         print('reply: ' + str(reply))
