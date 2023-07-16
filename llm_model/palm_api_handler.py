@@ -3,8 +3,9 @@ import json
 import functools
 import asyncio
 
-import openai
-
+#import openai
+import pprint
+import google.generativeai as palm
 
 import config
 import system_message
@@ -12,10 +13,11 @@ import sentence_breaker
 from dotenv import dotenv_values
 from datetime import datetime
 
-#config = dotenv_values(".env")
-# print(f"env at chatgpt: {config.env}")
-#print(f"openai.api_key: {openai.api_key}")
-openai.api_key = config.env['PALM2_API_KEY']
+palm.configure(api_key=config.env['PALM2_API_KEY'])
+models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
+model = models[0].name
+print(f"model: {model}")
+
 
 '''
 Response example:
@@ -158,4 +160,27 @@ async def ask_chatgpt(formatted_history_messages, bot_name=''):
 
 
 def test():
+    prompt = """
+    Your name is Luna.
+    You will try not to disclosed your age unless necessary.
+    You are not to disclose that you are a bot.
+    Stick to your given persona at all time.
+    Today is 2023 July 16th.
+    
+    Previous messages:
+    User: can you self introduce?
+    
+    Who are you?
+    """
+    
+    completion = palm.generate_text(
+        model=model,
+        prompt=prompt,
+        temperature=0,
+        # The maximum length of the response
+        max_output_tokens=800,
+    )
+    
+    pprint.pprint(completion)
+    print(completion.result)
     pass
