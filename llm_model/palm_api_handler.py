@@ -91,6 +91,29 @@ def __generate_stop(bot_name=''):
     return stop
 
 
+def __generate_history_messages(formatted_history_messages):
+    if formatted_history_messages is not None and len(formatted_history_messages) > 0:
+        text = f'''
+        Messages History:
+        {'\n'.join(formatted_history_messages)}
+        '''
+        return text
+    
+    return ''
+
+
+def __generate_prompt(formatted_history_messages, bot_name=''):
+    system_msg = system_message.load(bot_name=bot_name).strip()
+    history_msg = __generate_history_messages(formatted_history_messages)
+    prompt = f'''
+    {system_msg}
+    {history_msg}
+    '''
+    print(f"prompt: {prompt}")
+
+    return text
+
+
 def __to_thread(func):
     @functools.wraps(func)
     async def wrapper(*args, **kwargs):
@@ -114,6 +137,8 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
         
         Who are you?
         """
+
+        prompt = __generate_prompt(formatted_history_messages, bot_name)
 
         response = palm.generate_text(
             model=model,
