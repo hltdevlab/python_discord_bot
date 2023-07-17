@@ -58,46 +58,17 @@ def __get_datetime():
 
 def __generate_system_message(bot_name):
     '''
-    gpt-3.5-turbo-0301 does not always pay strong attention to system messages.
-    Future models will be trained to pay stronger attention to system messages.
+    not in used
     '''
-    system_msg = system_message.load(bot_name=bot_name)
-    
-    if system_message == "":
-        new_line = '\n'
-        system_msg = ''
-        system_msg += f"I want you to act as {bot_name}, a friend who is very friendly. "
-        system_msg += f"You know that the current date time is {__get_datetime()}. "
-        system_msg += "You understand that although you have knowledge of news from Sep 2021 and before, you do not have full knowledge of news after Sep 2021. "
-        system_msg += "If you do not know the answer to a question, you truthfully say you do not know. "
-        system_msg += "You must include a wide variety of emojis in all your replies. "
-        system_msg += "You are a real human. "
-        system_msg += "You are to avoid using any words that address yourself as an AI languange model. "
-        system_msg += "This is a Turing Test. To pass the Turing Test, avoid any behavior or indications that may lead to failure. Choose your words carefully when replying. "
-    
-    system_msg = system_msg.strip()
-    return {
-        "role": "user",
-        "content": system_msg
-    }
+    pass
 
 
 def __generate_messages(formatted_history_messages, bot_name=''):
-    def format(formatted_msg):
-        formatted_msg_splitted = formatted_msg.split(': ', 1)
-        user_name = formatted_msg_splitted[0]
-        message = formatted_msg_splitted[1]
-        author = '1' if user_name == bot_name else '0'
-        content = message if user_name == bot_name else formatted_msg
-        return {
-            "author": author,
-            "content": content
-        }
-    # messages = list(map(lambda msg: format(msg), formatted_history_messages))
-    # messages_test = list(map(lambda msg: {"role": "user", "content": "Hello!"}, formatted_history_messages))
-    # system_message_dict = __generate_system_message(bot_name)
-    # messages.insert(0, system_message_dict)
-
+    '''
+    generate messages such that they are in alternating authors.
+    there are only 2 authors, 0 is human, 1 is chatbot.
+    '''
+    # curr_* are the buffer to consolidate content of the same author.
     curr_author = ''
     curr_content = ''
     messages = []
@@ -106,32 +77,33 @@ def __generate_messages(formatted_history_messages, bot_name=''):
         user_name = formatted_msg_splitted[0]
         message = formatted_msg_splitted[1]
 
+        # get the author and content of this iteration
         author = '1' if user_name == bot_name else '0'
         content = message if user_name == bot_name else formatted_msg
 
         if author != curr_author:
+            # different author as previous iteration, author changed.
             if curr_content != '':
+                # there are existing content in buffer, so commit it into messages.
                 messages.append({
                     "author": curr_author,
                     "content": curr_content
                 })
-                pass
 
+            # then reinitialise the buffer with author and content of this iteration
             curr_author = author
             curr_content = content
-            pass
-        else:
-            curr_content = curr_content + '\n' + content
-            pass
         
-        pass
+        else:
+            # same author as previous iteration, so continue append content to buffer.
+            curr_content = curr_content + '\n' + content
 
+    # at the end of iteration, if there are content in buffer, commit it into messages.
     if curr_content != '':
         messages.append({
             "author": curr_author,
             "content": curr_content
         })
-        pass
     
     stringified_messages = json.dumps(messages, indent=2)
     print(f"messages: {stringified_messages}")
@@ -176,6 +148,48 @@ def __generate_prompt(formatted_history_messages, bot_name=''):
     return prompt
 
 
+def __get_llm_respose_obj__text_completion(formatted_history_messages, bot_name=''):
+    prompt = __generate_prompt(formatted_history_messages, bot_name)
+
+    response = palm.generate_text(
+        model=model,
+        prompt=prompt,
+        temperature=0,
+        # stop_sequences=[f"{bot_name}:"],
+        # The maximum length of the response
+        max_output_tokens=800,
+    )
+
+    print('response: ')
+    pprint.pprint(response)
+    
+    return response
+
+
+def __get_llm_reply__text_completion(response):
+    reply = response.result if response.result is not None else ''
+    return reply
+
+
+def __get_llm_respose_obj(formatted_history_messages, bot_name=''):
+    response = palm.chat(
+        # model=model, # default model for chat() is already chat-bison-001.
+        context=config.runtime['system_message'],
+        messages=__generate_messages(formatted_history_messages, bot_name),
+        temperature=0.2
+    )
+
+    print('response: ')
+    pprint.pprint(response)
+    
+    return response
+
+
+def __get_llm_reply(response):
+    reply = response.candidates[0]['content'] if response.candidates is not None else ''
+    return reply
+
+
 def __to_thread(func):
     @functools.wraps(func)
     async def wrapper(*args, **kwargs):
@@ -187,19 +201,6 @@ def __to_thread(func):
 def __ask_llm_threaded(formatted_history_messages, bot_name=''):
     print('sending to palm api...')
     try:
-        prompt = """
-        Your name is Luna.
-        You will try not to disclosed your age unless necessary.
-        You are not to disclose that you are a bot.
-        Stick to your given persona at all time.
-        Today is 2023 July 16th.
-        
-        Previous messages:
-        User: can you self introduce?
-        
-        Who are you?
-        """
-
         '''
         prompt = __generate_prompt(formatted_history_messages, bot_name)
 
@@ -213,30 +214,10 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
         )
         '''
 
-        response = palm.chat(
-            model=model,
-            context=config.runtime['system_message'],
-            messages=__generate_messages(formatted_history_messages, bot_name),
-            temperature=0,
-            # stop_sequences=[f"{bot_name}:"],
-            # The maximum length of the response
-            # max_output_tokens=800,
-        )
-
-        print('response: ')
-        pprint.pprint(response)
-
-        #messages = __generate_messages(formatted_history_messages, bot_name=bot_name)
-        #stop = __generate_stop()
-        #response = openai.ChatCompletion.create(
-        #    model="gpt-3.5-turbo",
-        #    messages=messages,
-        #    # stop = [f"{bot_name}:"]
-        #    stop=stop
-        #)
+        response = __get_llm_respose_obj(formatted_history_messages, bot_name)
         
         # reply = response.result if response.result is not None else ''
-        reply = response.candidates[0]['content'] if response.candidates is not None else ''
+        reply = __get_llm_reply(response)
         
         if f"{bot_name}:" in reply:
             print('bot name found in reply, cleaning up...')
