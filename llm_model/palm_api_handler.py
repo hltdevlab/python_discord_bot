@@ -167,14 +167,24 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
 
         prompt = __generate_prompt(formatted_history_messages, bot_name)
 
-        #response = palm.generate_text(
-        response = palm.chat(
+        '''
+        response = palm.generate_text(
             model=model,
             prompt=prompt,
             temperature=0,
             # stop_sequences=[f"{bot_name}:"],
             # The maximum length of the response
             max_output_tokens=800,
+        )
+        '''
+
+        response = palm.chat(
+            model=model,
+            prompt=prompt,
+            temperature=0,
+            # stop_sequences=[f"{bot_name}:"],
+            # The maximum length of the response
+            # max_output_tokens=800,
         )
 
         print('response: ')
