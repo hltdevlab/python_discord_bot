@@ -168,7 +168,7 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
         prompt = __generate_prompt(formatted_history_messages, bot_name)
 
         #response = palm.generate_text(
-        response = palm.generate_message(
+        response = palm.generateMessage(
             model=model,
             prompt=prompt,
             temperature=0,
