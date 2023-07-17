@@ -14,12 +14,13 @@ import sentence_breaker
 from dotenv import dotenv_values
 from datetime import datetime
 
-'''
+
 delimiter = ', '
 all_models = palm.list_models()
 all_models_name = list(map(lambda x: x.name, all_models))
 print(f"all_models_name: {delimiter.join(all_models_name)}")
 
+'''
 chat_models = [m for m in all_models if 'generateChat' in m.supported_generation_methods]
 chat_model = chat_models[0].name if len(chat_models) > 1 else ''
 print(f"chat_model: {chat_model}")
