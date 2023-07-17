@@ -98,37 +98,38 @@ def __generate_messages(formatted_history_messages, bot_name=''):
     # system_message_dict = __generate_system_message(bot_name)
     # messages.insert(0, system_message_dict)
 
-    curr_user_name = ''
-    curr_msg = ''
+    curr_author = ''
+    curr_content = ''
     messages = []
     for formatted_msg in formatted_history_messages:
         formatted_msg_splitted = formatted_msg.split(': ', 1)
         user_name = formatted_msg_splitted[0]
         message = formatted_msg_splitted[1]
 
-        if user_name != curr_user_name:
-            if curr_msg != '':
-                author = '1' if curr_user_name == bot_name else '0'
-                content = message if curr_user_name == bot_name else formatted_msg
+        author = '1' if user_name == bot_name else '0'
+        content = message if user_name == bot_name else formatted_msg
+
+        if author != curr_author:
+            if curr_content != '':
                 messages.append({
-                    "author": author,
-                    "content": content
+                    "author": curr_author,
+                    "content": curr_content
                 })
                 pass
+
+            curr_author = author
+            curr_content = content
             pass
         else:
-            content = message if curr_user_name == bot_name else formatted_msg
-            curr_msg = curr_msg + '\n' + content
+            curr_content = curr_content + '\n' + content
             pass
         
         pass
 
-    if curr_msg != '':
-        author = '1' if curr_user_name == bot_name else '0'
-        content = message if curr_user_name == bot_name else formatted_msg
+    if curr_content != '':
         messages.append({
-            "author": author,
-            "content": content
+            "author": curr_author,
+            "content": curr_content
         })
         pass
     
