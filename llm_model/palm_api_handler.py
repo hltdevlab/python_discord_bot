@@ -206,10 +206,11 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
         stop_sequences = __generate_stop()
         
         # if f"{bot_name}:" in reply:
-        if any(stop in reply for stop in stop_sequences):
-            print(f'bot name ({stop}) found in reply, cleaning up...')
-            unwanted_text, reply = reply.split(stop, maxsplit=1)
-            reply = reply.strip()
+        for stop in stop_sequences:
+            if stop in reply:
+                print(f'bot name ({stop}) found in reply, cleaning up...')
+                unwanted_text, reply = reply.split(stop, maxsplit=1)
+                reply = reply.strip()
 
         print('reply: ' + str(reply))
 
