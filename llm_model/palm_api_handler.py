@@ -201,27 +201,14 @@ def __to_thread(func):
 def __ask_llm_threaded(formatted_history_messages, bot_name=''):
     print('sending to palm api...')
     try:
-        '''
-        prompt = __generate_prompt(formatted_history_messages, bot_name)
-
-        response = palm.generate_text(
-            model=model,
-            prompt=prompt,
-            temperature=0,
-            # stop_sequences=[f"{bot_name}:"],
-            # The maximum length of the response
-            max_output_tokens=800,
-        )
-        '''
-
         response = __get_llm_respose_obj(formatted_history_messages, bot_name)
-        
-        # reply = response.result if response.result is not None else ''
         reply = __get_llm_reply(response)
+        stop_sequences = __generate_stop()
         
-        if f"{bot_name}:" in reply:
-            print('bot name found in reply, cleaning up...')
-            unwanted_text, reply = reply.split(f"{bot_name}:", maxsplit=1)
+        # if f"{bot_name}:" in reply:
+        if any(stop in reply for stop in stop_sequences):
+            print(f'bot name ({stop}) found in reply, cleaning up...')
+            unwanted_text, reply = reply.split(stop, maxsplit=1)
             reply = reply.strip()
 
         print('reply: ' + str(reply))
