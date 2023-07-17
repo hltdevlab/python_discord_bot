@@ -1,6 +1,9 @@
 import datetime
 
-def load(file_path='system_message.txt', bot_name=''):
+# system_message.txt - for OpenAI
+# system_message__palm_api.txt for Palm API
+
+def load(file_path='system_message__palm_api.txt', bot_name=''):
     try:
         with open(file_path, 'r') as file:
             system_message = file.read()
