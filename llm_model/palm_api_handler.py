@@ -93,10 +93,44 @@ def __generate_messages(formatted_history_messages, bot_name=''):
             "author": author,
             "content": content
         }
-    messages = list(map(lambda msg: format(msg), formatted_history_messages))
+    # messages = list(map(lambda msg: format(msg), formatted_history_messages))
     # messages_test = list(map(lambda msg: {"role": "user", "content": "Hello!"}, formatted_history_messages))
     # system_message_dict = __generate_system_message(bot_name)
     # messages.insert(0, system_message_dict)
+
+    curr_user_name = ''
+    curr_msg = ''
+    messages = []
+    for formatted_msg in formatted_history_messages:
+        formatted_msg_splitted = formatted_msg.split(': ', 1)
+        user_name = formatted_msg_splitted[0]
+        message = formatted_msg_splitted[1]
+
+        if user_name != curr_user_name:
+            if curr_msg != '':
+                author = '1' if curr_user_name == bot_name else '0'
+                content = message if curr_user_name == bot_name else formatted_msg
+                messages.append({
+                    "author": author,
+                    "content": content
+                })
+                pass
+            pass
+        else:
+            content = message if curr_user_name == bot_name else formatted_msg
+            curr_msg = curr_msg + '\n' + content
+            pass
+        
+        pass
+
+    if curr_msg != '':
+        author = '1' if curr_user_name == bot_name else '0'
+        content = message if curr_user_name == bot_name else formatted_msg
+        messages.append({
+            "author": author,
+            "content": content
+        })
+        pass
     
     stringified_messages = json.dumps(messages, indent=2)
     print(f"messages: {stringified_messages}")
