@@ -28,7 +28,15 @@ print(f"chat_model: {chat_model}")
 if len(chat_models) > 1:
     methods = chat_models[0].supported_generation_methods
     methods_str = ',\n'.join(methods)
+    #print(f"methods_str: {methods_str}")
+
+print('--- loop through methods ---')
+for m in all_models:
+    methods = m.supported_generation_methods
+    methods_str = ',\n'.join(methods)
+    print(f'model name: {m.name}')
     print(f"methods_str: {methods_str}")
+print('--- ---')
 
 models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
 model = models[0].name
