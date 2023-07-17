@@ -87,16 +87,16 @@ def __generate_messages(formatted_history_messages, bot_name=''):
         formatted_msg_splitted = formatted_msg.split(': ', 1)
         user_name = formatted_msg_splitted[0]
         message = formatted_msg_splitted[1]
-        role = 'assistant' if user_name == bot_name else 'user'
+        author = '1' if user_name == bot_name else '0'
         content = message if user_name == bot_name else formatted_msg
         return {
-            "role": role,
+            "author": author,
             "content": content
         }
     messages = list(map(lambda msg: format(msg), formatted_history_messages))
     # messages_test = list(map(lambda msg: {"role": "user", "content": "Hello!"}, formatted_history_messages))
-    system_message_dict = __generate_system_message(bot_name)
-    messages.insert(0, system_message_dict)
+    # system_message_dict = __generate_system_message(bot_name)
+    # messages.insert(0, system_message_dict)
     
     stringified_messages = json.dumps(messages, indent=2)
     print(f"messages: {stringified_messages}")
@@ -165,9 +165,9 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
         Who are you?
         """
 
+        '''
         prompt = __generate_prompt(formatted_history_messages, bot_name)
 
-        '''
         response = palm.generate_text(
             model=model,
             prompt=prompt,
@@ -180,7 +180,8 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
 
         response = palm.chat(
             model=model,
-            prompt=prompt,
+            context=config.runtime['system_message'],
+            messages=__generate_messages(formatted_history_messages, bot_name),
             temperature=0,
             # stop_sequences=[f"{bot_name}:"],
             # The maximum length of the response
@@ -199,8 +200,9 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
         #    stop=stop
         #)
         
-        reply = response.result if response.result is not None else ''
-
+        # reply = response.result if response.result is not None else ''
+        reply = response.candidates[0]['content'] if response.candidates is not None else ''
+        
         if f"{bot_name}:" in reply:
             print('bot name found in reply, cleaning up...')
             unwanted_text, reply = reply.split(f"{bot_name}:", maxsplit=1)
