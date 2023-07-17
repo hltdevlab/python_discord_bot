@@ -17,10 +17,12 @@ from datetime import datetime
 palm.configure(api_key=config.env['PALM2_API_KEY'])
 models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
 model = models[0].name
-delimiter = ', '
-print(f"models: {delimiter.join(models)}")
 print(f"model: {model}")
 
+delimiter = ', '
+all_models = palm.list_models()
+all_models_name = list(map(lambda x: x.name, all_models))
+print(f"all_models_name: {delimiter.join(all_models_name)}")
 
 '''
 Response example:
