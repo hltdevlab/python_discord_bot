@@ -38,7 +38,8 @@ for m in all_models:
     print(f"methods_str: {methods_str}")
 print('--- ---')
 
-models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
+#models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
+models = [m for m in palm.list_models() if 'generateMessage' in m.supported_generation_methods]
 model = models[0].name
 print(f"model in used: {model}")
 
@@ -166,7 +167,8 @@ def __ask_llm_threaded(formatted_history_messages, bot_name=''):
 
         prompt = __generate_prompt(formatted_history_messages, bot_name)
 
-        response = palm.generate_text(
+        #response = palm.generate_text(
+        response = palm.generate_message(
             model=model,
             prompt=prompt,
             temperature=0,
