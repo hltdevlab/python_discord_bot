@@ -39,12 +39,14 @@ def init_system_message():
     if runtime['system_message_template'] == '':
         runtime['system_message'] = system_message.load_template()
         print('system_message_template loaded in memory.')
+        print('system_message_template:', runtime['system_message_template'])
 
     # load system message from file if it has not been initialised    
     if runtime['system_message'] == '':
         bot_name = runtime['bot_name']
         runtime['system_message'] = system_message.load(bot_name=bot_name)
         print('system_message loaded in memory.')
+        print('system_message :', runtime['system_message'])
     
 
 
