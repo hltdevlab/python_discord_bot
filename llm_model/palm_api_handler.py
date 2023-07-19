@@ -61,11 +61,11 @@ def __get_datetime():
 
 
 def __generate_system_message(bot_name):
-    # system_msg = system_message.get_system_message(
-    #     config.runtime['system_message_template'],
-    #     bot_name=bot_name
-    #     ).strip()
-    system_msg = system_message.load(bot_name=bot_name).strip()
+    system_msg = system_message.get_system_message(
+        config.runtime['system_message_template'],
+        bot_name=bot_name
+        ).strip()
+    # system_msg = system_message.load(bot_name=bot_name).strip()
     return system_msg
 
 
