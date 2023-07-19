@@ -61,10 +61,8 @@ def __get_datetime():
 
 
 def __generate_system_message(bot_name):
-    '''
-    not in used
-    '''
-    pass
+    system_msg = get_system_message(config.runtime['system_message_template'], bot_name=bot_name).strip()
+    return system_msg
 
 
 def __generate_messages(formatted_history_messages, bot_name=''):
@@ -142,7 +140,7 @@ def __generate_history_messages(formatted_history_messages):
 
 def __generate_prompt(formatted_history_messages, bot_name=''):
     #system_msg = system_message.load(bot_name=bot_name).strip()
-    system_msg = config.runtime['system_message']
+    system_msg = __generate_system_message(bot_name)
     history_msg = __generate_history_messages(formatted_history_messages)
     prompt = f'''
         {system_msg}
@@ -187,7 +185,7 @@ def __palm_generate_text(formatted_history_messages, bot_name=''):
 def __get_llm_respose_obj(formatted_history_messages, bot_name=''):
     response = palm.chat(
         # model=chat_model, # default model for chat() is already chat-bison-001.
-        context=config.runtime['system_message'],
+        context=__generate_system_message(bot_name),
         messages=__generate_messages(formatted_history_messages, bot_name),
         temperature=0.2
     )
