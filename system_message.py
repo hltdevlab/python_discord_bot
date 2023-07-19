@@ -25,6 +25,8 @@ def load_template(file_path='system_message__palm_api.txt'):
     try:
         with open(file_path, 'r') as file:
             system_message_template = file.read()
+            print('system_message_template: ', system_message_template)
+            print('-----')
             return system_message_template
         
     except FileNotFoundError:
