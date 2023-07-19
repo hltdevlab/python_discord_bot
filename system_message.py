@@ -20,6 +20,8 @@ def load(file_path='system_message__palm_api.txt', bot_name=''):
 
 
 def load_template(file_path='system_message__palm_api.txt'):
+    print('load_template() ...')
+    print('file_path: ', file_path)
     try:
         with open(file_path, 'r') as file:
             system_message_template = file.read()
