@@ -45,7 +45,10 @@ def init_system_message():
     if runtime['system_message'] == '':
         bot_name = runtime['bot_name']
         # runtime['system_message'] = system_message.load(bot_name=bot_name)
-        runtime['system_message'] = system_message.get_system_message()
+        runtime['system_message'] = system_message.get_system_message(
+            runtime['system_message_template'],
+            bot_name=bot_name
+        )
         print('system_message loaded in memory.')
         # print('system_message :', runtime['system_message'])
     
