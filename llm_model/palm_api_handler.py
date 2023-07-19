@@ -4,8 +4,7 @@ import functools
 import asyncio
 import traceback
 
-#import openai
-import pprint
+from pprint import pprint
 import google.generativeai as palm
 
 import config
@@ -21,6 +20,7 @@ all_models = palm.list_models()
 all_models_name = list(map(lambda x: x.name, all_models))
 print(f"all_models_name: {delimiter.join(all_models_name)}")
 
+'''
 chat_models = [m for m in all_models if m.name == 'models/chat-bison-001']
 chat_model = chat_models[0].name if len(chat_models) > 1 else ''
 print(f"chat_model: {chat_model}")
@@ -29,7 +29,8 @@ if len(chat_models) > 1:
     methods = chat_models[0].supported_generation_methods
     methods_str = ',\n'.join(methods)
     #print(f"methods_str: {methods_str}")
-
+'''
+ 
 print('--- loop through methods ---')
 for m in all_models:
     methods = m.supported_generation_methods
@@ -38,10 +39,13 @@ for m in all_models:
     print(f"methods_str: {methods_str}")
 print('--- ---')
 
-#models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
-models = [m for m in palm.list_models() if 'generateMessage' in m.supported_generation_methods]
-model = models[0].name
-print(f"model in used: {model}")
+chat_models = [m for m in palm.list_models() if 'generateMessage' in m.supported_generation_methods]
+chat_model = chat_models[0].name
+print(f"chat_model in used: {chat_model}")
+
+text_models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
+text_model = text_models[0].name
+print(f"text_model in used: {text_model}")
 
 '''
 Response example:
@@ -152,7 +156,7 @@ def __get_llm_respose_obj__text_completion(formatted_history_messages, bot_name=
     prompt = __generate_prompt(formatted_history_messages, bot_name)
 
     response = palm.generate_text(
-        model=model,
+        model=text_model,
         prompt=prompt,
         temperature=0,
         # stop_sequences=[f"{bot_name}:"],
@@ -161,32 +165,50 @@ def __get_llm_respose_obj__text_completion(formatted_history_messages, bot_name=
     )
 
     print('response: ')
-    pprint.pprint(response)
+    pprint(response)
     
     return response
 
 
 def __get_llm_reply__text_completion(response):
-    reply = response.result if response.result is not None else ''
+    if response.result is None:
+        return ''
+    
+    reply = response.result
+    return reply
+
+
+def __palm_generate_text(formatted_history_messages, bot_name=''):
+    response = __get_llm_respose_obj__text_completion(formatted_history_messages, bot_name)
+    reply = __get_llm_reply__text_completion(response)
     return reply
 
 
 def __get_llm_respose_obj(formatted_history_messages, bot_name=''):
     response = palm.chat(
-        # model=model, # default model for chat() is already chat-bison-001.
+        # model=chat_model, # default model for chat() is already chat-bison-001.
         context=config.runtime['system_message'],
         messages=__generate_messages(formatted_history_messages, bot_name),
         temperature=0.2
     )
 
     print('response: ')
-    pprint.pprint(response)
+    pprint(response)
     
     return response
 
 
 def __get_llm_reply(response):
-    reply = response.candidates[0]['content'] if response.candidates is not None else ''
+    if response.candidates is None or len(response.candidates) == 0:
+        return ''
+    
+    reply = response.candidates[0]['content']
+    return reply
+
+
+def __palm_chat(formatted_history_messages, bot_name=''):
+    response = __get_llm_respose_obj(formatted_history_messages, bot_name)
+    reply = __get_llm_reply(response)
     return reply
 
 
@@ -201,11 +223,15 @@ def __to_thread(func):
 def __ask_llm_threaded(formatted_history_messages, bot_name=''):
     print('sending to palm api...')
     try:
-        response = __get_llm_respose_obj(formatted_history_messages, bot_name)
-        reply = __get_llm_reply(response)
+        #response = __get_llm_respose_obj(formatted_history_messages, bot_name)
+        #reply = __get_llm_reply(response)
+
+        reply = __palm_chat(formatted_history_messages, bot_name)
+
+        if reply == '':
+            reply = __palm_generate_text(formatted_history_messages, bot_name)
+
         stop_sequences = __generate_stop()
-        
-        # if f"{bot_name}:" in reply:
         for stop in stop_sequences:
             if stop in reply:
                 print(f'bot name ({stop}) found in reply, cleaning up...')
