@@ -100,16 +100,16 @@ async def reply_backlog_messages(client):
     # getting the channels the bot involves
     # channels = get_channels(client)
     channels = list(client.get_all_channels())
-    for channel in channels:
-        print(f"all channels: {channel.name} ({channel.type})")
+    # for channel in channels:
+    #     print(f"all channels: {channel.name} ({channel.type})")
     
-    members = client.get_all_members()
-    for member in members:
-        print(f"all members: {member.name}")
+    # members = client.get_all_members()
+    # for member in members:
+    #     print(f"all members: {member.name}")
     
-    users = client.users
-    for user in users:
-        print(f"all users: {user.name}")
+    # users = client.users
+    # for user in users:
+    #     print(f"all users: {user.name}")
     
     owners = []
     for guild in client.guilds:
@@ -125,19 +125,20 @@ async def reply_backlog_messages(client):
 
     text_channels = list(filter(lambda channel: str(channel.type) == "text", channels))
 
-    all_last_messages = []
-    for channel in text_channels + owners:
-        print(f"channel: {channel.name}")
-        # get last message
-        messages = [message async for message in channel.history(limit=1)]
-        if len(messages) == 0:
-            continue
-        all_last_messages.append(messages[0])
-        print("last msg: ", messages[0])
+    # all_last_messages = []
+    # for channel in text_channels + owners:
+    #     print(f"channel: {channel.name}")
+    #     # get last message
+    #     messages = [message async for message in channel.history(limit=1)]
+    #     if len(messages) == 0:
+    #         continue
+    #     all_last_messages.append(messages[0])
+    #     print("last msg: ", messages[0])
     
     messages_to_reply = []
-    for channel in text_channels:
-        print(f"channel: {channel.name} ({channel.type})")
+    for channel in text_channels + owners:
+        print(f"channel: {channel.name} ({channel.type if channel.type else ''})")
+        
         # get last message
         messages = [message async for message in channel.history(limit=1)]
         if len(messages) == 0:
