@@ -75,24 +75,6 @@ def get_reply_delay_in_sec(message):
     return random.randint(1, 60)
 
 
-# def get_channels(client):
-#     # getting the channels the bot involves
-#     channels = []
-#     for guild in client.guilds:
-#         print("guild.name: ", guild.name)
-#         for channel in guild.channels:
-#             channels.append(channel)
-    
-#     print("private channels len: ", len(client.private_channels))
-#     for channel in client.private_channels:
-#         print("channel.recipient.name: ", channel.recipient.name)
-
-#     channels = channels + list(client.private_channels)
-
-#     print("channels len: ", len(channels))
-#     return channels
-
-
 async def on_message_handler(client, message):
     if message.author == client.user:
         # if the bot's message, then ignore.
@@ -151,49 +133,26 @@ async def on_message_handler(client, message):
 
 async def reply_backlog_messages(client):
     bot_name = client.user.name
-    print("bot_name: ", bot_name)
 
     # getting the channels the bot involves
-    # channels = get_channels(client)
     channels = list(client.get_all_channels())
-    # for channel in channels:
-    #     print(f"all channels: {channel.name} ({channel.type})")
-    
-    # members = client.get_all_members()
-    # for member in members:
-    #     print(f"all members: {member.name}")
-    
-    # users = client.users
-    # for user in users:
-    #     print(f"all users: {user.name}")
-    
+
     owners = []
     for guild in client.guilds:
-        print(f"guild.owner: {guild.owner} ({guild.name})")
-        print(f"guild.owner_id: {guild.owner_id} ({guild.name})")
-        # owner_channel = client.get_channel(guild.owner_id)
+        # print(f"guild.owner: {guild.owner} ({guild.name})")
+        # print(f"guild.owner_id: {guild.owner_id} ({guild.name})")
         owner = await client.fetch_user(guild.owner_id)
-        print("owner type", type(owner))
+        # print("owner type", type(owner))
         owners.append(owner)
     
-    # category_channels are basically groupings of text and voice channel.
-    # category_channels = list(filter(lambda channel: str(channel.type) == "category", channels))
-
+    # select only the text channels
     text_channels = list(filter(lambda channel: str(channel.type) == "text", channels))
-
-    # all_last_messages = []
-    # for channel in text_channels + owners:
-    #     print(f"channel: {channel.name}")
-    #     # get last message
-    #     messages = [message async for message in channel.history(limit=1)]
-    #     if len(messages) == 0:
-    #         continue
-    #     all_last_messages.append(messages[0])
-    #     print("last msg: ", messages[0])
     
     messages_to_reply = []
+
+    # process those text channels and owners dm
     for channel in text_channels + owners:
-        print(f"channel: {channel.name} ({channel.type if hasattr(channel, 'type') else ''})")
+        # print(f"channel: {channel.name} ({channel.type if hasattr(channel, 'type') else ''})")
         
         # get last message
         messages = [message async for message in channel.history(limit=1)]
@@ -202,13 +161,16 @@ async def reply_backlog_messages(client):
         
         message = messages[0]
         last_message_username = str(message.author.name)
-        print("last_message_username: ", last_message_username)
+        # print("last_message_username: ", last_message_username)
 
+        # only those non-bot messages need to be replied
         if last_message_username != bot_name:
             messages_to_reply.append(message)
-    print("messages_to_reply len: ", len(messages_to_reply))
+    
+    if len(messages_to_reply) > 0:
+        print(f"{len(messages_to_reply)} backlog messages to reply.")
 
-    # trigger on_message() for each messages
+    # trigger on_message_handler() for each messages
     for message in messages_to_reply:
         await on_message_handler(client, message)
 
@@ -228,32 +190,31 @@ def run_discord_bot():
         await reply_backlog_messages(client)
 
 
-    async def on_message_old(message):
-        async with message.channel.typing():
-            if message.author == client.user:
-                return
+    # async def on_message_old(message):
+    #     async with message.channel.typing():
+    #         if message.author == client.user:
+    #             return
 
-            username = str(message.author)
-            user_message = str(message.content)
-            channel = str(message.channel)
+    #         username = str(message.author)
+    #         user_message = str(message.content)
+    #         channel = str(message.channel)
 
-            formatted_history_messages = await get_history(message.channel)
+    #         formatted_history_messages = await get_history(message.channel)
 
-            print(f"{username} said: '{user_message}' ({channel})")
+    #         print(f"{username} said: '{user_message}' ({channel})")
 
-            delay_in_sec = get_reply_delay_in_sec(message)
-            print(f"waiting for {delay_in_sec} seconds...")
-            await asyncio.sleep(delay_in_sec)
+    #         delay_in_sec = get_reply_delay_in_sec(message)
+    #         print(f"waiting for {delay_in_sec} seconds...")
+    #         await asyncio.sleep(delay_in_sec)
 
-            if user_message[0] == '?':
-                user_message = user_message[1:]
-                await send_message(message, user_message, is_private=True, formatted_history_messages=formatted_history_messages)
-            else:
-                await send_message(message, user_message, is_private=False, formatted_history_messages=formatted_history_messages)
+    #         if user_message[0] == '?':
+    #             user_message = user_message[1:]
+    #             await send_message(message, user_message, is_private=True, formatted_history_messages=formatted_history_messages)
+    #         else:
+    #             await send_message(message, user_message, is_private=False, formatted_history_messages=formatted_history_messages)
 
 
-    @client.event
-    async def on_message(message):
+    async def on_message_b4_20230927(message):
         if message.author == client.user:
             # if the bot's message, then ignore.
             return
@@ -307,6 +268,11 @@ def run_discord_bot():
             else:
                 await send_reply(message, reply, is_private=is_private)
                 return
+
+
+    @client.event
+    async def on_message(message):
+        await on_message_handler(client, message)
 
 
     client.run(TOKEN)
