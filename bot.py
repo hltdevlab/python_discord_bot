@@ -210,7 +210,7 @@ async def reply_backlog_messages(client):
 
     # trigger on_message() for each messages
     for message in messages_to_reply:
-        on_message_handler(message)
+        await on_message_handler(message)
 
 
 def run_discord_bot():
