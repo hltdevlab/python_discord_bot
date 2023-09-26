@@ -114,11 +114,13 @@ async def reply_backlog_messages(client):
     for guild in client.guilds:
         print(f"guild.owner: {guild.owner} ({guild.name})")
         print(f"guild.owner_id: {guild.owner_id} ({guild.name})")
+        owner_channel = client.get_channel(guild.owner_id)
+        channels.append(owner_channel)
     
     # category_channels are basically groupings of text and voice channel.
     # category_channels = list(filter(lambda channel: str(channel.type) == "category", channels))
 
-    text_channels = list(filter(lambda channel: str(channel.type) == "text", channels))
+    text_channels = list(filter(lambda channel: str(channel.type) in ["text", "private"], channels))
     
     messages_to_reply = []
     for channel in text_channels:
