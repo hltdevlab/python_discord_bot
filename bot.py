@@ -86,8 +86,11 @@ async def reply_backlog_messages(client):
             channels.append(channel)
     print("channels len: ", len(channels))
 
-    category_channel = [channel for channel in channels if channel.type == "category"]
-    text_channel = [channel for channel in channels if channel.type == "text"]
+    category_channel = list(filter(lambda channel: channel.type == "category", channels))
+    text_channel = list(filter(lambda channel: channel.type == "text", channels))
+
+    # category_channel = [channel for channel in channels if channel.type == "category"]
+    # text_channel = [channel for channel in channels if channel.type == "text"]
 
     for channel in category_channel:
         print(f"channel: {channel.name} ({channel.type})")
