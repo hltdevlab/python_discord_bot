@@ -86,13 +86,13 @@ async def reply_backlog_messages(client):
             channels.append(channel)
     print("channels len: ", len(channels))
 
-    category_channel = list(filter(lambda channel: channel.type == "category", channels))
-    text_channel = list(filter(lambda channel: channel.type == "text", channels))
+    category_channels = list(filter(lambda channel: str(channel.type) == "category", channels))
+    text_channels = list(filter(lambda channel: str(channel.type) == "text", channels))
 
-    # category_channel = [channel for channel in channels if channel.type == "category"]
-    # text_channel = [channel for channel in channels if channel.type == "text"]
+    # category_channels = [channel for channel in channels if channel.type == "category"]
+    # text_channels = [channel for channel in channels if channel.type == "text"]
 
-    for channel in category_channel:
+    for channel in category_channels:
         print(f"channel: {channel.name} ({channel.type})")
         # print("channel.last_message: ", channel.last_message)
         try:
@@ -102,7 +102,7 @@ async def reply_backlog_messages(client):
         continue
     
     messages_to_reply = []
-    for channel in text_channel:
+    for channel in text_channels:
         # get last message
         messages = [message async for message in channel.history(limit=1)]
         if len(messages) == 0:
