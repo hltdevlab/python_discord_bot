@@ -98,7 +98,10 @@ async def reply_backlog_messages(client):
     print("bot_name: ", bot_name)
 
     # getting the channels the bot involves
-    channels = get_channels(client)
+    # channels = get_channels(client)
+    channels = client.get_all_channels()
+    for channel in channels:
+        print(f"all channel: {channel.name} ({channel.type})")
 
     # category_channels are basically groupings of text and voice channel.
     # category_channels = list(filter(lambda channel: str(channel.type) == "category", channels))
