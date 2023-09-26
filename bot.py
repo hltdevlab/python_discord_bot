@@ -91,7 +91,8 @@ async def reply_backlog_messages(client):
         print(f"channel: {channel.name} ({channel.type})")
         # print("channel.last_message: ", channel.last_message)
         try:
-            print("last message: ", channel.history(limit=1)[0])
+            messages = [message async for message in channel.history(limit=1)]
+            print("last message: ", messages[0])
         except Exception as e:
             print("no history fn.", e)
         continue
