@@ -110,7 +110,8 @@ async def reply_backlog_messages(client):
         
         message = messages[0]
         last_message_username = str(message.author.name)
-        
+        print("last_message_username: ", last_message_username)
+
         if last_message_username != bot_name:
             messages_to_reply.append(message)
     print("messages_to_reply len: ", len(messages_to_reply))
