@@ -101,7 +101,15 @@ async def reply_backlog_messages(client):
     # channels = get_channels(client)
     channels = client.get_all_channels()
     for channel in channels:
-        print(f"all channel: {channel.name} ({channel.type})")
+        print(f"all channels: {channel.name} ({channel.type})")
+    
+    members = client.get_all_members()
+    for member in members:
+        print(f"all members: {member.name}")
+    
+    users = client.users
+    for user in users:
+        print(f"all users: {user.name}")
 
     # category_channels are basically groupings of text and voice channel.
     # category_channels = list(filter(lambda channel: str(channel.type) == "category", channels))
