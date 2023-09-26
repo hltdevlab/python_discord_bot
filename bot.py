@@ -102,7 +102,11 @@ async def reply_backlog_messages(client):
             print("no channels", e)
         continue
     print("new channels len: ", len(channels))
-    
+
+    # print out new channels to see names
+    for channel in channels:
+        print(f"new channel: {channel.name} ({channel.type})")
+
     text_channels = list(filter(lambda channel: str(channel.type) == "text", channels))
     
     messages_to_reply = []
