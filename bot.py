@@ -93,7 +93,7 @@ def get_reply_delay_in_sec(message):
 #     return channels
 
 
-async def on_message_handler(message):
+async def on_message_handler(client, message):
     if message.author == client.user:
         # if the bot's message, then ignore.
         return
@@ -210,8 +210,7 @@ async def reply_backlog_messages(client):
 
     # trigger on_message() for each messages
     for message in messages_to_reply:
-        await on_message_handler(message)
-
+        await on_message_handler(client, message)
 
 def run_discord_bot():
     TOKEN = config.env['BOT_TOKEN']
