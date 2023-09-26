@@ -137,7 +137,7 @@ async def reply_backlog_messages(client):
     
     messages_to_reply = []
     for channel in text_channels + owners:
-        print(f"channel: {channel.name} ({channel.type if channel.type else ''})")
+        print(f"channel: {channel.name} ({channel.type if hasattr(channel, 'type') else ''})")
         
         # get last message
         messages = [message async for message in channel.history(limit=1)]
