@@ -75,37 +75,32 @@ def get_reply_delay_in_sec(message):
     return random.randint(1, 60)
 
 
+def get_channels(client):
+    # getting the channels the bot involves
+    channels = []
+    for guild in client.guilds:
+        print("guild.name: ", guild.name)
+        for channel in guild.channels:
+            channels.append(channel)
+    
+    for guild in client.user.mutual_guilds:
+        print("mutual guild.name: ", guild.name)
+        for channel in guild.channels:
+            channels.append(channel)
+    
+    print("channels len: ", len(channels))
+    return channels
+
+
 async def reply_backlog_messages(client):
     bot_name = client.user.name
     print("bot_name: ", bot_name)
 
     # getting the channels the bot involves
-    channels = []
-    for guild in client.guilds:
-        for channel in guild.channels:
-            channels.append(channel)
-    print("channels len: ", len(channels))
-
-    category_channels = list(filter(lambda channel: str(channel.type) == "category", channels))
-    text_channels = list(filter(lambda channel: str(channel.type) == "text", channels))
-
-    # category_channels = [channel for channel in channels if channel.type == "category"]
-    # text_channels = [channel for channel in channels if channel.type == "text"]
-
-    for channel in category_channels:
-        print(f"channel: {channel.name} ({channel.type})")
-        # print("channel.last_message: ", channel.last_message)
-        try:
-            print("channel.channels len: ", len(channel.channels))
-            channels = channels + channel.channels
-        except Exception as e:
-            print("no channels", e)
-        continue
-    print("new channels len: ", len(channels))
-
-    # print out new channels to see names
-    for channel in channels:
-        print(f"new channel: {channel.name} ({channel.type})")
+    channels = get_channels(client)
+    
+    # category_channels are basically groupings of text and voice channel.
+    # category_channels = list(filter(lambda channel: str(channel.type) == "category", channels))
 
     text_channels = list(filter(lambda channel: str(channel.type) == "text", channels))
     
