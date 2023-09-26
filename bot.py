@@ -75,22 +75,78 @@ def get_reply_delay_in_sec(message):
     return random.randint(1, 60)
 
 
-def get_channels(client):
-    # getting the channels the bot involves
-    channels = []
-    for guild in client.guilds:
-        print("guild.name: ", guild.name)
-        for channel in guild.channels:
-            channels.append(channel)
+# def get_channels(client):
+#     # getting the channels the bot involves
+#     channels = []
+#     for guild in client.guilds:
+#         print("guild.name: ", guild.name)
+#         for channel in guild.channels:
+#             channels.append(channel)
     
-    print("private channels len: ", len(client.private_channels))
-    for channel in client.private_channels:
-        print("channel.recipient.name: ", channel.recipient.name)
+#     print("private channels len: ", len(client.private_channels))
+#     for channel in client.private_channels:
+#         print("channel.recipient.name: ", channel.recipient.name)
 
-    channels = channels + list(client.private_channels)
+#     channels = channels + list(client.private_channels)
 
-    print("channels len: ", len(channels))
-    return channels
+#     print("channels len: ", len(channels))
+#     return channels
+
+
+async def on_message_handler(message):
+    if message.author == client.user:
+        # if the bot's message, then ignore.
+        return
+
+    username = str(message.author)
+    user_message = str(message.clean_content)
+    channel = str(message.channel)
+    if message.reference:
+        reference_msg = message.reference.resolved.clean_content
+        print(f"reference_msg: {reference_msg}")
+    print(f"{username} said: '{user_message}' ({channel})")
+
+    is_private = is_to_reply_in_private(message)
+    if is_private:
+        # remove the ? prefix.
+        user_message = user_message[1:]
+
+    # determine if message is a preset command or not.
+    reply = preset_command_handler.get_reply(message)
+    if reply:
+        if type(reply) == list:
+            replies = reply
+            for each_reply in replies:
+                print(each_reply)
+                await send_reply(message, each_reply, is_private=is_private)
+            return
+        
+        await send_reply(message, reply, is_private=is_private)
+        return
+    
+    async with message.channel.typing():
+        # add in some random delays
+        delay_in_sec = get_reply_delay_in_sec(message)
+        print(f"waiting for {delay_in_sec} seconds...")
+        await asyncio.sleep(delay_in_sec)
+
+        # process message and use the respective services.
+        formatted_history_messages = await get_history(message.channel)
+        if message.reference:
+            ref_username = message.reference.resolved.author.name
+            ref_message = reference_msg
+            ref_entry = f"{ref_username}: Reference: {ref_message}"
+            formatted_history_messages.insert(-1, ref_entry)
+
+        reply = await llm.ask_llm(formatted_history_messages, bot_name=client.user.name)
+        if reply and type(reply) == list:
+            replies = reply
+            for each_reply in replies:
+                await send_reply(message, each_reply, is_private=is_private)
+            return
+        else:
+            await send_reply(message, reply, is_private=is_private)
+            return
 
 
 async def reply_backlog_messages(client):
@@ -154,7 +210,7 @@ async def reply_backlog_messages(client):
 
     # trigger on_message() for each messages
     for message in messages_to_reply:
-        on_message(message)
+        on_message_handler(message)
 
 
 def run_discord_bot():
