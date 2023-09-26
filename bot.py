@@ -92,8 +92,8 @@ async def reply_backlog_messages(client):
         # print("channel.last_message: ", channel.last_message)
         try:
             print("last message: ", channel.history(limit=1)[0])
-        except:
-            print("no history fn")
+        except Exception as e:
+            print("no history fn.", e)
         continue
     
         # get last message
