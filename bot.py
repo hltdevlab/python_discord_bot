@@ -75,6 +75,36 @@ def get_reply_delay_in_sec(message):
     return random.randint(1, 60)
 
 
+async def reply_backlog_messages(client):
+    bot_name = client.user.name
+    print("bot_name: ", bot_name)
+
+    # getting the channels the bot involves
+    channels = []
+    for guild in client.guilds:
+        for channel in guild.channels:
+            channels.append(channel)
+    print("channels len: ", len(channels))
+
+    messages_to_reply = []
+    for channel in channels:
+        # get last message
+        messages = [message async for message in channel.history(limit=1)]
+        if len(messages) == 0:
+            continue
+        
+        message = messages[0]
+        last_message_username = str(message.author.name)
+        
+        if last_message_username != bot_name:
+            messages_to_reply.append(message)
+    print("messages_to_reply len: ", len(messages_to_reply))
+
+    # trigger on_message() for each messages
+    for message in messages_to_reply:
+        on_message(message)
+
+
 def run_discord_bot():
     TOKEN = config.env['BOT_TOKEN']
     intents = discord.Intents.default()
@@ -86,6 +116,8 @@ def run_discord_bot():
         config.init_bot_name(client.user.name)
         config.init_system_message()
         print(f'{client.user} is now running!')
+
+        await reply_backlog_messages(client)
 
 
     async def on_message_old(message):
