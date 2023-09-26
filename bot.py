@@ -83,11 +83,8 @@ def get_channels(client):
         for channel in guild.channels:
             channels.append(channel)
     
-    for guild in client.user.mutual_guilds:
-        print("mutual guild.name: ", guild.name)
-        for channel in guild.channels:
-            channels.append(channel)
-    
+    channels = channels + client.private_channels
+        
     print("channels len: ", len(channels))
     return channels
 
@@ -98,7 +95,7 @@ async def reply_backlog_messages(client):
 
     # getting the channels the bot involves
     channels = get_channels(client)
-    
+
     # category_channels are basically groupings of text and voice channel.
     # category_channels = list(filter(lambda channel: str(channel.type) == "category", channels))
 
