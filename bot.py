@@ -117,6 +117,7 @@ async def reply_backlog_messages(client):
         # owner_channel = client.get_channel(guild.owner_id)
         owner = await client.fetch_user(guild.owner_id)
         channels.append(owner.dm_channel)
+        print("owner type", type(owner))
         print("owner.dm_channel type", type(owner.dm_channel))
     
     # category_channels are basically groupings of text and voice channel.
