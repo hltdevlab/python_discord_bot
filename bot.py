@@ -115,7 +115,7 @@ async def reply_backlog_messages(client):
         print(f"guild.owner: {guild.owner} ({guild.name})")
         print(f"guild.owner_id: {guild.owner_id} ({guild.name})")
         # owner_channel = client.get_channel(guild.owner_id)
-        owner = client.get_user(guild.owner_id)
+        owner = await client.fetch_user(guild.owner_id)
         channels.append(owner.dm_channel)
         print("owner.dm_channel type", type(owner.dm_channel))
     
