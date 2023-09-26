@@ -99,7 +99,7 @@ async def reply_backlog_messages(client):
 
     # getting the channels the bot involves
     # channels = get_channels(client)
-    channels = client.get_all_channels()
+    channels = list(client.get_all_channels())
     for channel in channels:
         print(f"all channels: {channel.name} ({channel.type})")
     
