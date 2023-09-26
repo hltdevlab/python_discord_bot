@@ -83,7 +83,7 @@ def get_channels(client):
         for channel in guild.channels:
             channels.append(channel)
     
-    print("private channels:")
+    print("private channels len: ", len(client.private_channels))
     for channel in client.private_channels:
         print("channel.recipient.name: ", channel.recipient.name)
 
