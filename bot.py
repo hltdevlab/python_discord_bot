@@ -111,19 +111,29 @@ async def reply_backlog_messages(client):
     for user in users:
         print(f"all users: {user.name}")
     
+    owners = []
     for guild in client.guilds:
         print(f"guild.owner: {guild.owner} ({guild.name})")
         print(f"guild.owner_id: {guild.owner_id} ({guild.name})")
         # owner_channel = client.get_channel(guild.owner_id)
         owner = await client.fetch_user(guild.owner_id)
-        channels.append(owner.dm_channel)
         print("owner type", type(owner))
-        print("owner.dm_channel type", type(owner.dm_channel))
+        owners.append(owner)
     
     # category_channels are basically groupings of text and voice channel.
     # category_channels = list(filter(lambda channel: str(channel.type) == "category", channels))
 
-    text_channels = list(filter(lambda channel: str(channel.type) in ["text", "private"], channels))
+    text_channels = list(filter(lambda channel: str(channel.type) == "text", channels))
+
+    all_last_messages = []
+    for channel in text_channels + owners:
+        print(f"channel: {channel.name}")
+        # get last message
+        messages = [message async for message in channel.history(limit=1)]
+        if len(messages) == 0:
+            continue
+        all_last_messages.append(messages[0])
+        print("last msg: ", messages[0])
     
     messages_to_reply = []
     for channel in text_channels:
