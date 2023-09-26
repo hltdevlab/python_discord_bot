@@ -103,6 +103,7 @@ async def reply_backlog_messages(client):
     
     messages_to_reply = []
     for channel in text_channels:
+        print(f"channel: {channel.name} ({channel.type})")
         # get last message
         messages = [message async for message in channel.history(limit=1)]
         if len(messages) == 0:
