@@ -212,6 +212,7 @@ async def reply_backlog_messages(client):
     for message in messages_to_reply:
         await on_message_handler(client, message)
 
+
 def run_discord_bot():
     TOKEN = config.env['BOT_TOKEN']
     intents = discord.Intents.default()
