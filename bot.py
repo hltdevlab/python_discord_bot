@@ -97,9 +97,13 @@ async def reply_backlog_messages(client):
         # print("channel.last_message: ", channel.last_message)
         try:
             print("channel.channels len: ", len(channel.channels))
+            channels = channels + channel.channels
         except Exception as e:
             print("no channels", e)
         continue
+    print("new channels len: ", len(channels))
+    
+    text_channels = list(filter(lambda channel: str(channel.type) == "text", channels))
     
     messages_to_reply = []
     for channel in text_channels:
